@@ -52,6 +52,6 @@ namespace Home_Assistant_Agent_for_SteamVR
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        private Window m_window;
+        public Window m_window;
     }
 }

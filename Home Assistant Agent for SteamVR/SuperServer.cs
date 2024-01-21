@@ -22,7 +22,6 @@ namespace Home_Assistant_Agent_for_SteamVR
         }
 
         private IHost host;
-        private IServer _server;
         private readonly ConcurrentDictionary<string, WebSocketSession> _sessions = new ConcurrentDictionary<string, WebSocketSession>(); // Was getting crashes when loading all sessions from _server directly
         private volatile int _deliveredCount = 0;
         private volatile int _receivedCount = 0;
@@ -44,7 +43,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         public async Task StartAsync(int port)
         {
             // Stop in case of already running
-            Stop();
+            StopAsync();
 
             var host = WebSocketHostBuilder.Create()
                 .UseWebSocketMessageHandler(
@@ -55,11 +54,19 @@ namespace Home_Assistant_Agent_for_SteamVR
                 )
                 .UseSessionHandler(async (s) =>
                 {
-                    _server = s.Server as IServer;
+                    await Server_NewSessionConnected(s as WebSocketSession);
+                },
+                async (s, e) =>
+                {
+                    // s: the session
+                    // e: the CloseEventArgs
+                    // e.Reason: the close reason
+                    // things to do after the session closes
+                    await Server_SessionClosedAsync(s as WebSocketSession, e.Reason);
                 })
                 .ConfigureSuperSocket(options =>
                 {
-                    options.Name = "Echo Server";
+                    options.Name = "Home Assistant Agent for SteamVR";
                     options.AddListener(new ListenOptions
                     {
                         Ip = "Any",
@@ -79,12 +86,26 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         }
 
-        public void Stop()
+        public async Task StopAsync()
         {
             if (host != null)
             {
+                var container = host.AsServer().GetSessionContainer();
+
+                var serverSessions = container.GetSessions();
+                foreach (var session in serverSessions)
+                {
+                    try
+                    {
+                        await session.CloseAsync(SuperSocket.Channel.CloseReason.ServerShutdown);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"SuperServer.StopAsync: {ex.Message}");
+                    }
+                }
                 host.Dispose();
-                host.StopAsync();
+                await host.StopAsync();
             }
             StatusAction.Invoke(ServerStatus.Disconnected, 0);
         }
@@ -111,7 +132,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         #endregion
 
         #region Listeners 
-        private void Server_NewSessionConnected(WebSocketSession session)
+        private async Task Server_NewSessionConnected(WebSocketSession session)
         {
             _sessions[session.SessionID] = session;
             StatusMessageAction.Invoke(session, true, $"New session connected: {session.SessionID}");
@@ -130,7 +151,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             DataReceievedAction.Invoke(session, value);
         }
 
-        private void Server_SessionClosed(WebSocketSession session, SuperSocket.Channel.CloseReason value)
+        private async Task Server_SessionClosedAsync(WebSocketSession session, SuperSocket.Channel.CloseReason value)
         {
             _sessions.TryRemove(session.SessionID, out WebSocketSession oldSession);
             StatusMessageAction.Invoke(null, false, $"Session closed: {session.SessionID}");
@@ -141,8 +162,8 @@ namespace Home_Assistant_Agent_for_SteamVR
         #region Send
         public void SendMessage(WebSocketSession session, string message)
         {
-            if (_server.State != SuperSocket.ServerState.Started) return;
-            if (session != null && session.State == SuperSocket.SessionState.Connected)
+            if (session.Server.State != ServerState.Started) return;
+            if (session != null && session.State == SessionState.Connected)
             {
                 session.SendAsync(message);
                 _deliveredCount++;

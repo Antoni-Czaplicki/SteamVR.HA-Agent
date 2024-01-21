@@ -228,7 +228,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             _openvrStatusAction = (status) => { };
             _server.ResetActions();
             _shouldShutDown = true;
-            _server.Stop();
+            _server.StopAsync();
         }
 
         public static string CreateMD5(string input) // https://stackoverflow.com/a/24031467

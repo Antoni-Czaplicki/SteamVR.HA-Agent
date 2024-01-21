@@ -82,6 +82,11 @@ namespace Home_Assistant_Agent_for_SteamVR
             return Windows.ApplicationModel.Package.Current.DisplayName;
         }
 
+        public void Shutdown()
+        {
+            _controller.Shutdown();
+        }
+
         private void NavigationViewControl_SelectionChanged(NavigationView sender,
                       NavigationViewSelectionChangedEventArgs args)
         {
