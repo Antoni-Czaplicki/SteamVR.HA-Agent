@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Home_Assistant_Agent_for_SteamVR.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Home_Assistant_Agent_for_SteamVR"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="Base"/>
+    </Window.SystemBackdrop>
+
+
+    <Grid>
+        <Grid
+            x:Name="AppTitleBar"
+            Height="32"
+            Margin="16,0,0,0"
+            VerticalAlignment="Top"
+            Padding="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image
+                x:Name="AppFontIcon"
+                Width="16"
+                Height="16"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Source="/Assets/Square44x44Logo.png" />
+            <TextBlock
+                Margin="12,0,0,0"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind GetAppTitleFromSystem()}"/>
+        </Grid>
+
+        <NavigationView
+            x:Name="NavigationViewControl"
+            IsTabStop="False" 
+            BackRequested="NavigationViewControl_BackRequested" 
+            SelectionChanged="NavigationViewControl_SelectionChanged"
+            CompactModeThresholdWidth="0"
+            Margin="0,24,0,0"
+            PaneDisplayMode="Top"
+            IsBackButtonVisible="Collapsed">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Home" Tag="Home_Assistant_Agent_for_SteamVR.MainPage" Icon="Library" />
+                <NavigationViewItem Content="Notification editor" Tag="Home_Assistant_Agent_for_SteamVR.AboutPage" Icon="Message" />
+            </NavigationView.MenuItems>
+            <Frame x:Name="ContentFrame" Navigated="ContentFrame_Navigated"/>
+        </NavigationView>
+    </Grid>
+
+</Window>

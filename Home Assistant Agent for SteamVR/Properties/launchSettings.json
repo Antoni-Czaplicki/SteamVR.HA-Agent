@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Home Assistant Agent for SteamVR (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Home Assistant Agent for SteamVR (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

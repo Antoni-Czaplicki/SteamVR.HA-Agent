@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Home_Assistant_Agent_for_SteamVR.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Home_Assistant_Agent_for_SteamVR"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"      
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"      
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d">
+
+    <ScrollView>
+        <StackPanel Spacing="4" Margin="16">
+            <TextBlock x:Name="pageTitle" Text="Settings"
+               Margin="16" Style="{StaticResource TitleTextBlockStyle}"/>
+            <controls:SettingsCard Description="Chose a port to use for WebSocket. The default port is 8077."
+                               Header="Port"
+                               HeaderIcon="{ui:FontIcon Glyph=&#xE968;}">
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <NumberBox KeyDown="PortBox_KeyDown" Name="PortBox"/>
+                    <Button Style="{StaticResource AccentButtonStyle}" Content="Save" Name="SavePortButton" Click="SavePortButton_Click"/>
+                </StackPanel>
+            </controls:SettingsCard>
+            <controls:SettingsCard Description="Launch the app minimized."
+                               Header="Launch minimized"
+                               HeaderIcon="{ui:FontIcon Glyph=&#xEE47;}">
+                <ToggleSwitch Toggled="LaunchMinimized_Toggled" Name="LaunchMinimizedToggle"/>
+            </controls:SettingsCard>
+            <controls:SettingsCard Description="Minimize to tray instead of taskbar."
+                               Header="Enable Tray Icon"
+                               HeaderIcon="{ui:FontIcon Glyph=&#xF129;}">
+                <ToggleSwitch Toggled="EnableTray_Toggled" Name="EnableTrayToggle"/>
+            </controls:SettingsCard>
+            <controls:SettingsCard Description="Close the app when SteamVR is closed."
+                               Header="Exit with SteamVR"
+                               HeaderIcon="{ui:FontIcon Glyph=&#xE7E8;}">
+                <ToggleSwitch Toggled="ExitWithSteamVR_Toggled" Name="ExitWithSteamVRToggle"/>
+            </controls:SettingsCard>
+        </StackPanel>
+    </ScrollView>
+</Page>
