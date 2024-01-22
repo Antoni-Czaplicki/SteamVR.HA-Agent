@@ -97,7 +97,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                     _shouldShutDown = false;
                     initComplete = false;
                     foreach(var overlay in Session.Overlays.Values) overlay.Deinit();
-                    _vr.AcknowledgeShutdown();
+                    // _vr.AcknowledgeShutdown();
                     Thread.Sleep(500); // Allow things to deinit properly
                     _vr.Shutdown();
                     _openvrStatusAction.Invoke(false);
@@ -217,10 +217,15 @@ namespace Home_Assistant_Agent_for_SteamVR
                 }
             };
         }
+        
+        public void Start()
+        {
+            _server.StartAsync(Settings.Default.Port);
+        }
 
         public void SetPort(int port)
         {
-            _server.StartAsync(port);
+            _server.RestartAsync(port);
         }
 
         public void Shutdown()

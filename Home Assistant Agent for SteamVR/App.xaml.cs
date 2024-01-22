@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using WinUIEx;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +27,8 @@ namespace Home_Assistant_Agent_for_SteamVR
     /// </summary>
     public partial class App : Application
     {
+
+        public MainWindow MWindow;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -40,18 +43,28 @@ namespace Home_Assistant_Agent_for_SteamVR
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
         // App.xaml.cs
-
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            m_window = new MainWindow();
-            m_window.Activate();
+            MWindow = new MainWindow();
+            MWindow.Activate();
+            MWindow.SetWindowSize(680, 480);
+            MWindow.CenterOnScreen();
+            var manager = WindowManager.Get(MWindow);
+            manager.MinWidth = 560;
+            manager.MinHeight = 360;
+            if (Settings.Default.AlwaysOnTop)
+            {
+                MWindow.SetIsAlwaysOnTop(true);
+            }
+            if (Settings.Default.LaunchMinimized)
+            {
+                MWindow.Minimize();
+            }
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
-
-        public Window m_window;
     }
 }

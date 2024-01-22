@@ -3,6 +3,8 @@ using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using WinUIEx;
 using System;
 using System.Threading.Tasks;
 
@@ -23,6 +25,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             LaunchMinimizedToggle.IsOn = Settings.Default.LaunchMinimized;
             EnableTrayToggle.IsOn = Settings.Default.EnableTray;
             ExitWithSteamVRToggle.IsOn = Settings.Default.ExitWithSteamVR;
+            AlwaysOnTopToggle.IsOn = Settings.Default.AlwaysOnTop;
         }
 
         private void PortBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -51,6 +54,13 @@ namespace Home_Assistant_Agent_for_SteamVR
             Settings.Default.EnableTray = EnableTrayToggle.IsOn;
             Settings.Default.Save();
         }
+        
+        private void AlwaysOnTop_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.AlwaysOnTop = AlwaysOnTopToggle.IsOn;
+            Settings.Default.Save();
+            (Application.Current as App)?.MWindow.SetIsAlwaysOnTop(Settings.Default.AlwaysOnTop);
+        }
 
         private void ExitWithSteamVR_Toggled(object sender, RoutedEventArgs e)
         {
@@ -62,6 +72,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             Settings.Default.Port = int.Parse(PortBox.Text);
             Settings.Default.Save();
+            (Application.Current as App)?.MWindow.SetWebsocketPort(Settings.Default.Port);
             SavePortButton.Content = "Saved!";
         }
 

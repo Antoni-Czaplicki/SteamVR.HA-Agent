@@ -6,6 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Home_Assistant_Agent_for_SteamVR
 {
@@ -22,6 +23,11 @@ namespace Home_Assistant_Agent_for_SteamVR
         }
 
         private IHost host;
+        public ListenOptions LServerOptions = new ListenOptions
+        {
+            Ip = "Any",
+            Port = 8077
+        };
         private readonly ConcurrentDictionary<string, WebSocketSession> _sessions = new ConcurrentDictionary<string, WebSocketSession>(); // Was getting crashes when loading all sessions from _server directly
         private volatile int _deliveredCount = 0;
         private volatile int _receivedCount = 0;
@@ -44,8 +50,10 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             // Stop in case of already running
             StopAsync();
+            
+            LServerOptions.Port = port;
 
-            var host = WebSocketHostBuilder.Create()
+            host = WebSocketHostBuilder.Create()
                 .UseWebSocketMessageHandler(
                     async (session, message) =>
                     {
@@ -67,15 +75,11 @@ namespace Home_Assistant_Agent_for_SteamVR
                 .ConfigureSuperSocket(options =>
                 {
                     options.Name = "Home Assistant Agent for SteamVR";
-                    options.AddListener(new ListenOptions
-                    {
-                        Ip = "Any",
-                        Port = port
-                    }
-                    );
+                    options.AddListener(LServerOptions);
                     options.ReceiveBufferSize = 1024 * 1024;
                     options.MaxPackageLength = 1024 * 1024;
                 })
+                .UseInProcSessionContainer()
                 .ConfigureLogging((hostCtx, loggingBuilder) =>
                 {
                     loggingBuilder.AddConsole();
@@ -90,24 +94,36 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             if (host != null)
             {
-                var container = host.AsServer().GetSessionContainer();
-
-                var serverSessions = container.GetSessions();
-                foreach (var session in serverSessions)
+                foreach (var service in host.Services.GetServices<IHostedService>())
                 {
-                    try
+                    if (service is IServer server)
                     {
-                        await session.CloseAsync(SuperSocket.Channel.CloseReason.ServerShutdown);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"SuperServer.StopAsync: {ex.Message}");
+                        var container = server.GetSessionContainer();
+
+                        var serverSessions = container?.GetSessions();
+                        if (serverSessions == null) continue;
+                        foreach (var session in serverSessions)
+                        {
+                            try
+                            {
+                                await session.CloseAsync(SuperSocket.Channel.CloseReason.ServerShutdown);
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine($"Error closing session: {ex.Message}");
+                            }
+                        }
                     }
                 }
-                host.Dispose();
                 await host.StopAsync();
             }
             StatusAction.Invoke(ServerStatus.Disconnected, 0);
+        }
+        
+        public async Task RestartAsync(int port)
+        {
+            await StopAsync();
+            await StartAsync(port);
         }
 
         public void ResetActions()

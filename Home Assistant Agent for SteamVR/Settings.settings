@@ -1,18 +1,23 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Home_Assistant_Agent_for_SteamVR" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="Port" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">8077</Value>
-    </Setting>
-    <Setting Name="ExitWithSteamVR" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="LaunchMinimized" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="EnableTray" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-  </Settings>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
+              GeneratedClassNamespace="Home_Assistant_Agent_for_SteamVR" GeneratedClassName="Settings">
+    <Profiles/>
+    <Settings>
+        <Setting Name="Port" Type="System.Int32" Scope="User">
+            <Value Profile="(Default)">8077</Value>
+        </Setting>
+        <Setting Name="ExitWithSteamVR" Type="System.Boolean" Scope="User">
+            <Value Profile="(Default)">True</Value>
+        </Setting>
+        <Setting Name="LaunchMinimized" Type="System.Boolean" Scope="User">
+            <Value Profile="(Default)">False</Value>
+        </Setting>
+        <Setting Name="EnableTray" Type="System.Boolean" Scope="User">
+            <Value Profile="(Default)">True</Value>
+        </Setting>
+        <Setting Name="AlwaysOnTop" Type="System.Boolean" Scope="User">
+            <Value Profile="(Default)">False</Value>
+        </Setting>
+    </Settings>
 </SettingsFile>
+

@@ -1,42 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <Page
     x:Class="Home_Assistant_Agent_for_SteamVR.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Home_Assistant_Agent_for_SteamVR"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"      
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"      
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="SettingsSectionHeaderTextBlockStyle"
+               BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+               TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
 
     <ScrollView>
         <StackPanel Spacing="4" Margin="16">
             <TextBlock x:Name="pageTitle" Text="Settings"
-               Margin="16" Style="{StaticResource TitleTextBlockStyle}"/>
+                       Margin="0,0,0,16" Style="{StaticResource TitleTextBlockStyle}" />
             <controls:SettingsCard Description="Chose a port to use for WebSocket. The default port is 8077."
-                               Header="Port"
-                               HeaderIcon="{ui:FontIcon Glyph=&#xE968;}">
+                                   Header="Port"
+                                   HeaderIcon="{ui:FontIcon Glyph=&#xE968;}">
                 <StackPanel Orientation="Horizontal" Spacing="4">
-                    <NumberBox KeyDown="PortBox_KeyDown" Name="PortBox"/>
-                    <Button Style="{StaticResource AccentButtonStyle}" Content="Save" Name="SavePortButton" Click="SavePortButton_Click"/>
+                    <NumberBox KeyDown="PortBox_KeyDown" Name="PortBox" />
+                    <Button Style="{StaticResource AccentButtonStyle}" Content="Save" Name="SavePortButton"
+                            Click="SavePortButton_Click" />
                 </StackPanel>
             </controls:SettingsCard>
             <controls:SettingsCard Description="Launch the app minimized."
-                               Header="Launch minimized"
-                               HeaderIcon="{ui:FontIcon Glyph=&#xEE47;}">
-                <ToggleSwitch Toggled="LaunchMinimized_Toggled" Name="LaunchMinimizedToggle"/>
+                                   Header="Launch minimized"
+                                   HeaderIcon="{ui:FontIcon Glyph=&#xEE47;}">
+                <ToggleSwitch Toggled="LaunchMinimized_Toggled" Name="LaunchMinimizedToggle" />
+            </controls:SettingsCard>
+            <controls:SettingsCard Description="Put the app on top of all other windows."
+                                   Header="Always on top"
+                                   HeaderIcon="{ui:FontIcon Glyph=&#xE7C4;}">
+                <ToggleSwitch Toggled="AlwaysOnTop_Toggled" Name="AlwaysOnTopToggle" />
             </controls:SettingsCard>
             <controls:SettingsCard Description="Minimize to tray instead of taskbar."
-                               Header="Enable Tray Icon"
-                               HeaderIcon="{ui:FontIcon Glyph=&#xF129;}">
-                <ToggleSwitch Toggled="EnableTray_Toggled" Name="EnableTrayToggle"/>
+                                   Header="Enable Tray Icon"
+                                   HeaderIcon="{ui:FontIcon Glyph=&#xF129;}">
+                <ToggleSwitch Toggled="EnableTray_Toggled" Name="EnableTrayToggle" />
             </controls:SettingsCard>
             <controls:SettingsCard Description="Close the app when SteamVR is closed."
-                               Header="Exit with SteamVR"
-                               HeaderIcon="{ui:FontIcon Glyph=&#xE7E8;}">
-                <ToggleSwitch Toggled="ExitWithSteamVR_Toggled" Name="ExitWithSteamVRToggle"/>
+                                   Header="Exit with SteamVR"
+                                   HeaderIcon="{ui:FontIcon Glyph=&#xE7E8;}">
+                <ToggleSwitch Toggled="ExitWithSteamVR_Toggled" Name="ExitWithSteamVRToggle" />
             </controls:SettingsCard>
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                       Text="About" />
+
+            <controls:SettingsExpander Description="© 2024. All rights reserved."
+                                       Header="Home Assistant Agent for SteamVR"
+                                       HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-200.png}">
+                <TextBlock win:IsTextSelectionEnabled="True"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Version 0.0.1" />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard HorizontalContentAlignment="Left"
+                                           ContentAlignment="Left">
+                        <StackPanel Margin="-12,0,0,0"
+                                    Orientation="Vertical">
+                            <HyperlinkButton Content="Source Code (Github)"
+                                             NavigateUri="https://github.com/Antoni-Czaplicki/SteamVR.HA-Agent" />
+                            <HyperlinkButton Content="Home Assistant Integration"
+                                             NavigateUri="https://github.com/Antoni-Czaplicki/SteamVR.HA" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <HyperlinkButton Margin="0,8,0,0"
+                             Content="Send feedback"
+                             NavigateUri="https://github.com/Antoni-Czaplicki/SteamVR.HA-Agent/issues" />
+
         </StackPanel>
     </ScrollView>
 </Page>

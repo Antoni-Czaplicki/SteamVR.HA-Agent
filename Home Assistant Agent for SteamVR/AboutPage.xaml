@@ -12,6 +12,6 @@
     <Grid>
         <TextBlock x:Name="pageTitle" Text="Notification Editor" Margin="16" Style="{StaticResource TitleTextBlockStyle}"/>
         <ProgressBar Width="130" IsIndeterminate="True" ShowPaused="False" ShowError="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <controls:WebView2 x:Name="NotificationEditor" Source="https://openvroverlaypipeeditor.tiiny.site" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" MinHeight="200" MinWidth="200"/>
+        <controls:WebView2 x:Name="WebView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="200" MinWidth="200"/>
     </Grid>
 </Page>

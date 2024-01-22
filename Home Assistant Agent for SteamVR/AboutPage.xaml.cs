@@ -26,11 +26,9 @@ namespace Home_Assistant_Agent_for_SteamVR
         public AboutPage()
         {
             this.InitializeComponent();
+            var webView = WebView;
+            webView.Source = new Uri($"https://openvroverlaypipeeditor.tiiny.site?port={Settings.Default.Port}");
         }
 
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MainPage));
-        }
     }
 }

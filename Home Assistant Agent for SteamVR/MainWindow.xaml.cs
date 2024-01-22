@@ -66,7 +66,9 @@ namespace Home_Assistant_Agent_for_SteamVR
                     Debug.WriteLine($"MainController: Status: {status}");
                 }
                 ); 
-            _controller.SetPort(Settings.Default.Port);
+            _controller.Start();
+            
+            m_AppWindow.Closing += AppWindow_Closing;
 
         }
 
@@ -75,6 +77,11 @@ namespace Home_Assistant_Agent_for_SteamVR
             IntPtr hWnd = WindowNative.GetWindowHandle(this);
             WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
             return AppWindow.GetFromWindowId(wndId);
+        }
+        
+        private void AppWindow_Closing(object sender, AppWindowClosingEventArgs e)
+        {
+            Shutdown();
         }
 
         public string GetAppTitleFromSystem()
@@ -85,6 +92,11 @@ namespace Home_Assistant_Agent_for_SteamVR
         public void Shutdown()
         {
             _controller.Shutdown();
+        }
+        
+        public void SetWebsocketPort(int port)
+        {
+            _controller.SetPort(port);
         }
 
         private void NavigationViewControl_SelectionChanged(NavigationView sender,
