@@ -36,6 +36,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                 null,
                 new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo()
             );
+            
 
             SystemBackdrop = new MicaBackdrop()
             { Kind = MicaKind.Base };
@@ -47,23 +48,24 @@ namespace Home_Assistant_Agent_for_SteamVR
 
             // Controller
             _controller = new MainController(
-                (status, state) => {
-                    Debug.WriteLine($"MainController: Status: {status}, State: {state}");
-                    switch (status)
-                    {
-                        case SuperServer.ServerStatus.Connected:
-                            Debug.WriteLine($"MainController: Connected to server");
-                            break;
-                        case SuperServer.ServerStatus.Disconnected:
-                            Debug.WriteLine($"MainController: Disconnected from server");
-                            break;
-                        case SuperServer.ServerStatus.Error:
-                            Debug.WriteLine($"MainController: Error from server: {state}");
-                            break;
-                    }
+                ((App)Application.Current).StatusViewModel,
+                (session, sessionCount) => {
+                    Debug.WriteLine($"MainController: Session: {sessionCount}");
                 }, 
                 (status) => { 
                     Debug.WriteLine($"MainController: Status: {status}");
+                    ((App)Application.Current).StatusViewModel.SteamVRStatus = status;
+                    if (status)
+                    {
+                    }
+                    else
+                    {
+                        if (Settings.Default.ExitWithSteamVR)
+                        {
+                            _controller?.Shutdown();
+                            Application.Current.Exit();
+                        }
+                    }
                 }
                 ); 
             _controller.Start();
@@ -139,6 +141,5 @@ namespace Home_Assistant_Agent_for_SteamVR
             }
 
         }
-
     }
 }

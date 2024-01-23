@@ -8,14 +8,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using WinUIEx;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,8 +19,9 @@ namespace Home_Assistant_Agent_for_SteamVR
     /// </summary>
     public partial class App : Application
     {
-
         public MainWindow MWindow;
+        public readonly StatusViewModel StatusViewModel = new StatusViewModel();
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -45,6 +38,17 @@ namespace Home_Assistant_Agent_for_SteamVR
         // App.xaml.cs
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            var mainInstance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey("main");
+            
+            if (!mainInstance.IsCurrent)
+            {
+                var activatedEventArgs =
+                    Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+                mainInstance.RedirectActivationToAsync(activatedEventArgs);
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+                return;
+            }
+
             MWindow = new MainWindow();
             MWindow.Activate();
             MWindow.SetWindowSize(680, 480);
@@ -56,6 +60,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             {
                 MWindow.SetIsAlwaysOnTop(true);
             }
+
             if (Settings.Default.LaunchMinimized)
             {
                 MWindow.Minimize();

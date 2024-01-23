@@ -21,14 +21,16 @@ namespace Home_Assistant_Agent_for_SteamVR
         private readonly EasyOpenVRSingleton _vr = EasyOpenVRSingleton.Instance;
         private readonly SuperServer _server = new SuperServer();
         private Action<bool> _openvrStatusAction;
-        private bool _openVRConnected = false;
-        private bool _shouldShutDown = false;
+        private bool _steamVRConnected = false;
+        private bool _steamVRShutDown = false;
+        private StatusViewModel _statusViewModel;
 
-        public MainController(Action<SuperServer.ServerStatus, int> serverStatus, Action<bool> openvrStatus)
+
+        public MainController(StatusViewModel statusViewModel, Action<WebSocketSession, int> sessionHandler, Action<bool> openvrStatus)
         {
-            //UiDispatcher = Dispatcher.CurrentDispatcher;
+            _statusViewModel = statusViewModel;
             _openvrStatusAction = openvrStatus;
-            InitServer(serverStatus);
+            InitServer(sessionHandler);
             var notificationsThread = new Thread(Worker);
             if (!notificationsThread.IsAlive) notificationsThread.Start();
             var sensorsThread = new Thread(SensorsWorker);
@@ -41,7 +43,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             const uint INVALID_INDEX_VALUE = 4294967295;
             while (true)
             {
-                if (_openVRConnected)
+                if (_steamVRConnected)
                 {
                     var runningApplicationId = _vr.GetRunningApplicationId();
                     var rightControlerIndex = _vr.GetIndexForControllerRole(ETrackedControllerRole.RightHand);
@@ -65,12 +67,12 @@ namespace Home_Assistant_Agent_for_SteamVR
             Thread.CurrentThread.IsBackground = true;
             while (true)
             {
-                if (_openVRConnected)
+                if (_steamVRConnected)
                 {
                     if (!initComplete)
                     {
                         initComplete = true;
-                        _vr.AddApplicationManifest("./app.vrmanifest", "czaplicki.steamvrhaclient", true);
+                        _vr.AddApplicationManifest("./app.vrmanifest", "czaplicki.steamvr_ha_agent", true);
                         _openvrStatusAction.Invoke(true);
                         RegisterEvents();
                         _vr.SetDebugLogAction((message) =>
@@ -86,29 +88,29 @@ namespace Home_Assistant_Agent_for_SteamVR
                 }
                 else
                 {
-                    if (!_openVRConnected)
+                    if (!_steamVRConnected)
                     {
                         Debug.WriteLine("Initializing OpenVR...");
-                        _openVRConnected = _vr.Init();
+                        _steamVRConnected = _vr.Init();
                     }
                     Thread.Sleep(2000);
                 }
-                if (_shouldShutDown) {
-                    _shouldShutDown = false;
+                if (_steamVRShutDown) {
+                    _steamVRShutDown = false;
                     initComplete = false;
-                    foreach(var overlay in Session.Overlays.Values) overlay.Deinit();
                     // _vr.AcknowledgeShutdown();
                     Thread.Sleep(500); // Allow things to deinit properly
                     _vr.Shutdown();
                     _openvrStatusAction.Invoke(false);
                 }
+                _statusViewModel.wsServerState = _server.GetState();
             }            
         }
 
         private void RegisterEvents() {
             _vr.RegisterEvent(EVREventType.VREvent_Quit, (data) => {
-                _openVRConnected = false;
-                _shouldShutDown = true;
+                _steamVRConnected = false;
+                _steamVRShutDown = true;
             });
         }
 
@@ -158,39 +160,14 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         private void PostImageNotification(string sessionId, Payload payload)
         {
-            var channel = payload.customProperties.overlayChannel;
-            Debug.WriteLine($"Posting image texture notification to channel {channel}!");
-            Overlay overlay;
-            if(!Session.Overlays.ContainsKey(channel))
-            {
-                overlay = new Overlay($"SteamVRHAClient[{channel}]", channel);
-                if (overlay != null && overlay.IsInitialized())
-                {
-                    overlay.DoneEvent += (s, args) =>
-                    {
-                        OnOverlayDoneEvent(args);
-                    };
-                    Session.Overlays.TryAdd(channel, overlay);
-                }
-            } else overlay = Session.Overlays[channel];
-            if (overlay != null && overlay.IsInitialized()) overlay.EnqueueNotification(sessionId, payload);
+            // TODO: Forward to external plugin
         }
 
-        private void OnOverlayDoneEvent(string[] args) {
-            if (args.Length == 3) {
-                var sessionId = args[0];
-                var nonce = args[1];
-                var error = args[2];
-                WebSocketSession session;
-                var sessionExists = Session.Sessions.TryGetValue(sessionId, out session);
-                if (sessionExists) _server.SendMessage(session, JsonConvert.SerializeObject(new Response(nonce, error.Length > 0 ? "Error" : "OK", error)));
-            }
-        }
         #endregion
 
-        private void InitServer(Action<SuperServer.ServerStatus, int> serverStatus)
+        private void InitServer(Action<WebSocketSession, int> sessionHandler)
         {
-            _server.StatusAction = serverStatus;
+            _server.SessionHandler = sessionHandler;
             _server.MessageReceievedAction = (session, payloadJson) =>
             {
                 if (!Session.Sessions.ContainsKey(session.SessionID)) {
@@ -232,7 +209,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             _openvrStatusAction = (status) => { };
             _server.ResetActions();
-            _shouldShutDown = true;
+            _steamVRShutDown = true;
             _server.StopAsync();
         }
 

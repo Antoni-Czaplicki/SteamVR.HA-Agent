@@ -1,0 +1,16 @@
+{
+	"applications": [
+		{
+			"app_key": "czaplicki.steamvr_ha_agent",
+			"launch_type": "binary",
+			"binary_path_windows": "Home Assistant Agent for SteamVR.exe",
+			"is_dashboard_overlay": true,
+			"strings": {
+				"en_us": {
+					"name": "Home Assistant Agent for SteamVR",
+					"description": "Home Assistant Agent for SteamVR"
+				}
+			}
+		}
+	]
+}

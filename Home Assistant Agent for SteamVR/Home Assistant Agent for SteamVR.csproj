@@ -41,8 +41,9 @@
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="OpenTK" Version="4.8.2" />
-        <PackageReference Include="OpenTK.GLWpfControl" Version="4.2.3" />
+        <PackageReference Include="OpenTK" Version="3.3.3" />
+        <PackageReference Include="OpenTK.GLControl" Version="3.3.3" />
+        <PackageReference Include="OpenTK.GLWpfControl" Version="3.3.0" />
         <PackageReference Include="SuperSocket" Version="2.0.0-beta.18" />
         <PackageReference Include="SuperSocket.WebSocket.Server" Version="2.0.0-beta.18" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
@@ -81,6 +82,9 @@
     </ItemGroup>
     <ItemGroup>
         <None Update="openvr_api.dll">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="app.vrmanifest">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Settings.settings">
