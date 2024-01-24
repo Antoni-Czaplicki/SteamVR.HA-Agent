@@ -8,9 +8,9 @@
         IgnorableNamespaces="uap rescap">
 
     <Identity
-            Name="cf45ac19-67ac-4b0d-8a79-c1576b3ac6c1"
+            Name="HASteamvrAgent"
             Publisher="CN=antek"
-            Version="0.0.1.0"/>
+            Version="0.0.2.0"/>
 
     <mp:PhoneIdentity PhoneProductId="cf45ac19-67ac-4b0d-8a79-c1576b3ac6c1"
                       PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
@@ -44,6 +44,14 @@
                 <uap:SplashScreen Image="Assets\SplashScreen.png"/>
                 <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badgeAndTileText"/>
             </uap:VisualElements>
+            <Extensions>
+                <uap:Extension Category="windows.protocol">
+                    <uap:Protocol Name="ha-vr-agent">
+                        <uap:Logo>Assets\icon.png</uap:Logo>
+                        <uap:DisplayName>Home Assistant Agent for SteamVR</uap:DisplayName>
+                    </uap:Protocol>
+                </uap:Extension>
+            </Extensions>
         </Application>
     </Applications>
 

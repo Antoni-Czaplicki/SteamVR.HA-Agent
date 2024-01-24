@@ -1,13 +1,10 @@
 ﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
 using WinUIEx;
 using System;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Activation;
+using Microsoft.Windows.AppLifecycle;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -36,18 +33,18 @@ namespace Home_Assistant_Agent_for_SteamVR
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
         // App.xaml.cs
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            var mainInstance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey("main");
-            
+            var mainInstance = AppInstance.FindOrRegisterForKey("haasvr");
             if (!mainInstance.IsCurrent)
             {
-                var activatedEventArgs =
-                    Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
-                mainInstance.RedirectActivationToAsync(activatedEventArgs);
+                var activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+                await mainInstance.RedirectActivationToAsync(activatedEventArgs);
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
                 return;
             }
+
+            AppInstance.GetCurrent().Activated += AppActivated;
 
             MWindow = new MainWindow();
             MWindow.Activate();
@@ -65,6 +62,31 @@ namespace Home_Assistant_Agent_for_SteamVR
             {
                 MWindow.Minimize();
             }
+        }
+
+        private void AppActivated(object sender, AppActivationArguments args)
+        {
+            if (args.Kind == ExtendedActivationKind.Protocol)
+            {
+                var eventArgs = args.Data as ProtocolActivatedEventArgs;
+                if (eventArgs != null)
+                {
+                    var uri = eventArgs.Uri;
+                    if (uri != null)
+                    {
+                        var query = uri.Query;
+                        if (query.Contains("launch_type=steamvr"))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+            if (MWindow.WindowState == WindowState.Minimized)
+            {
+                MWindow.DispatcherQueue.TryEnqueue(() => MWindow.Restore());
+            }
+            MWindow.BringToFront();
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

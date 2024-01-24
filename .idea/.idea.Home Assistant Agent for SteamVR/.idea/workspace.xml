@@ -11,85 +11,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee7c89ce-f60a-47a9-a027-1279a4101094" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/BadgeLogo.scale-100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/BadgeLogo.scale-125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/BadgeLogo.scale-150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/BadgeLogo.scale-200.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/BadgeLogo.scale-400.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/LargeTile.scale-100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/LargeTile.scale-125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/LargeTile.scale-150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/LargeTile.scale-200.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/LargeTile.scale-400.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/SmallTile.scale-100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/SmallTile.scale-125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/SmallTile.scale-150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/SmallTile.scale-200.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/SmallTile.scale-400.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/SplashScreen.scale-100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/SplashScreen.scale-125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/SplashScreen.scale-150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/SplashScreen.scale-400.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square150x150Logo.scale-100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square150x150Logo.scale-125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square150x150Logo.scale-150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square150x150Logo.scale-400.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.altform-lightunplated_targetsize-16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.altform-lightunplated_targetsize-24.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.altform-lightunplated_targetsize-256.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.altform-lightunplated_targetsize-32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.altform-lightunplated_targetsize-48.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.altform-unplated_targetsize-16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.altform-unplated_targetsize-256.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.altform-unplated_targetsize-32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.altform-unplated_targetsize-48.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.scale-100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.scale-125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.scale-150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.scale-400.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.targetsize-16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.targetsize-24.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.targetsize-256.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.targetsize-32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Square44x44Logo.targetsize-48.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/StoreLogo.scale-100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/StoreLogo.scale-125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/StoreLogo.scale-150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/StoreLogo.scale-200.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/StoreLogo.scale-400.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Wide310x150Logo.scale-100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Wide310x150Logo.scale-125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Wide310x150Logo.scale-150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/Wide310x150Logo.scale-400.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/StatusViewModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/app.vrmanifest" afterDir="false" />
+    <list default="true" id="ee7c89ce-f60a-47a9-a027-1279a4101094" name="Changes" comment="Implement autostart with SteamVR">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/App.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/App.xaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/GraphicsSingleton.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Assets/icon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainWindow.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainWindow.xaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Animator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Cycle.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Overlay.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/QueueItem.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/RenderTexture.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Shader.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Texture.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Tween.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Session.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Session.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Shaders/shader.vert" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Shaders/shader3d.frag" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SuperServer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SuperServer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/app.vrmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/app.vrmanifest" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +41,12 @@
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Private.CoreLib/src/System/Runtime/ExceptionServices/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Private.CoreLib/src/System/Runtime/InteropServices/COMException.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0001a30ab86f4423a59c85f5f3b8c03d8400/d1/3ff87a91/WebSocketSession.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/096bf2174504462b9c68fe6e2d22feefba20/08/f99077f7/ExtendedActivationKind.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/096bf2174504462b9c68fe6e2d22feefba20/9d/a4caf1c3/IAppInstanceMethods.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/096bf2174504462b9c68fe6e2d22feefba20/d9/772d0596/AppInstance.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e2af16516aff49dab7ee06deb35b381a3d250/09/617a563d/WindowExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/4e/0af8d5af/Application.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/ba/b1f5a453/Window.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/AboutPage.g.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/App.g.i.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainPage.g.i.cs" root0="SKIP_HIGHLIGHTING" />
@@ -190,6 +126,13 @@
         <option name="Build" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue=".NET Launch Settings Profile.Home Assistant Agent for SteamVR: Home Assistant Agent for SteamVR (Unpackaged)" />
+      <item itemvalue="Publish to IIS.Home Assistant Agent for SteamVR: win10-arm64" />
+      <item itemvalue="Publish to IIS.Home Assistant Agent for SteamVR: win10-x64" />
+      <item itemvalue="Publish to IIS.Home Assistant Agent for SteamVR: win10-x86" />
+      <item itemvalue="UWP.Home Assistant Agent for SteamVR" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -210,6 +153,11 @@
       <workItem from="1706010002564" duration="1603000" />
       <workItem from="1706011953589" duration="2000000" />
       <workItem from="1706016002829" duration="17886000" />
+      <workItem from="1706050006025" duration="924000" />
+      <workItem from="1706085231440" duration="420000" />
+      <workItem from="1706087501644" duration="616000" />
+      <workItem from="1706100359454" duration="4015000" />
+      <workItem from="1706104426975" duration="4170000" />
     </task>
     <task id="LOCAL-00001" summary="Continue development">
       <option name="closed" value="true" />
@@ -240,25 +188,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Continue development" />
-    <option name="LAST_COMMIT_MESSAGE" value="Continue development" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR/EasyOpenVRSingleton.cs</url>
-          <line>1134</line>
-          <properties documentPath="C:\Users\antek\source\repos\Home Assistant Agent for SteamVR\Home Assistant Agent for SteamVR\EasyOpenVR\EasyOpenVRSingleton.cs" initialLine="1134" containingFunctionPresentation="Method 'AddApplicationManifest'">
-            <startOffsets>
-              <option value="45108" />
-            </startOffsets>
-            <endOffsets>
-              <option value="45179" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Implement autostart with SteamVR" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement autostart with SteamVR" />
   </component>
 </project>

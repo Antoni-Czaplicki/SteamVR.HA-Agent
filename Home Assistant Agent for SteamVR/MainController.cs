@@ -72,7 +72,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                     if (!initComplete)
                     {
                         initComplete = true;
-                        _vr.AddApplicationManifest("./app.vrmanifest", "czaplicki.steamvr_ha_agent", true);
+                        _vr.AddApplicationManifest(Windows.ApplicationModel.Package.Current.InstalledPath + "\\app.vrmanifest", "antek.steamvr_ha_agent", true);
                         _openvrStatusAction.Invoke(true);
                         RegisterEvents();
                         _vr.SetDebugLogAction((message) =>

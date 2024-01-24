@@ -1,9 +1,9 @@
 {
 	"applications": [
 		{
-			"app_key": "czaplicki.steamvr_ha_agent",
-			"launch_type": "binary",
-			"binary_path_windows": "Home Assistant Agent for SteamVR.exe",
+			"app_key": "antek.steamvr_ha_agent",
+			"launch_type": "url",
+			"url": "ha-vr-agent://?launch_type=steamvr",
 			"is_dashboard_overlay": true,
 			"strings": {
 				"en_us": {
