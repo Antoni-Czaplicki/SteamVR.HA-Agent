@@ -1,5 +1,4 @@
-﻿using Home_Assistant_Agent_for_SteamVR.Notification;
-using SuperSocket.WebSocket.Server;
+﻿using SuperSocket.WebSocket.Server;
 using System.Collections.Concurrent;
 
 namespace Home_Assistant_Agent_for_SteamVR

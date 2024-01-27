@@ -1,20 +1,17 @@
-﻿using Home_Assistant_Agent_for_SteamVR.Notification;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Home_Assistant_Agent_for_SteamVR
+﻿namespace Home_Assistant_Agent_for_SteamVR
 {
     class Payload
     {
+        // Basic
+        public string type = "notification";
+        public string command = "";
+        
         // General
         public string imageData = "";
         public string imagePath = "";
 
         // Standard notification
-        public string basicTitle = "Home_Assistant_Agent_for_SteamVR";
+        public string basicTitle = "Home Assistant Agent for SteamVR";
         public string basicMessage = "";
 
         // Custom notification

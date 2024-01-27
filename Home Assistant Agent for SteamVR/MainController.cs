@@ -2,13 +2,13 @@
 using Newtonsoft.Json;
 using Home_Assistant_Agent_for_SteamVR.Notification;
 using Home_Assistant_Agent_for_SteamVR.Sensor;
-using SuperSocket.WebSocket;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Valve.VR;
 using static BOLL7708.EasyOpenVRSingleton;
 using SuperSocket.WebSocket.Server;
@@ -46,10 +46,10 @@ namespace Home_Assistant_Agent_for_SteamVR
                 if (_steamVRConnected)
                 {
                     var runningApplicationId = _vr.GetRunningApplicationId();
-                    var rightControlerIndex = _vr.GetIndexForControllerRole(ETrackedControllerRole.RightHand);
-                    var leftControlerIndex = _vr.GetIndexForControllerRole(ETrackedControllerRole.LeftHand);
-                    var rightController = (rightControlerIndex == INVALID_INDEX_VALUE) ? new Controller(false) : new Controller(true, (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(rightControlerIndex, ETrackedDeviceProperty.Prop_DeviceBatteryPercentage_Float) * 100), _vr.GetBooleanTrackedDeviceProperty(rightControlerIndex, ETrackedDeviceProperty.Prop_DeviceIsCharging_Bool));
-                    var leftController = (leftControlerIndex == INVALID_INDEX_VALUE) ? new Controller(false) : new Controller(true, (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(leftControlerIndex, ETrackedDeviceProperty.Prop_DeviceBatteryPercentage_Float) * 100), _vr.GetBooleanTrackedDeviceProperty(leftControlerIndex, ETrackedDeviceProperty.Prop_DeviceIsCharging_Bool));
+                    var rightControllerIndex = _vr.GetIndexForControllerRole(ETrackedControllerRole.RightHand);
+                    var leftControllerIndex = _vr.GetIndexForControllerRole(ETrackedControllerRole.LeftHand);
+                    var rightController = (rightControllerIndex == INVALID_INDEX_VALUE) ? new Controller(false) : new Controller(true, (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(rightControllerIndex, ETrackedDeviceProperty.Prop_DeviceBatteryPercentage_Float) * 100), _vr.GetBooleanTrackedDeviceProperty(rightControllerIndex, ETrackedDeviceProperty.Prop_DeviceIsCharging_Bool));
+                    var leftController = (leftControllerIndex == INVALID_INDEX_VALUE) ? new Controller(false) : new Controller(true, (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(leftControllerIndex, ETrackedDeviceProperty.Prop_DeviceBatteryPercentage_Float) * 100), _vr.GetBooleanTrackedDeviceProperty(leftControllerIndex, ETrackedDeviceProperty.Prop_DeviceIsCharging_Bool));
                     _server.SendMessageToAll(JsonConvert.SerializeObject(new State(true, _vr.GetTrackedDeviceActivityLevel(0), runningApplicationId, _vr.GetApplicationPropertyString(runningApplicationId, EVRApplicationProperty.Name_String), rightController, leftController)));
                 } else
                 {
@@ -180,37 +180,67 @@ namespace Home_Assistant_Agent_for_SteamVR
                     Debug.WriteLine(message);
                     _server.SendMessage(session, JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, "Error", message)));
                 }
-                // Debug.WriteLine($"Payload was received: {payloadJson}");
-                if (payload.customProperties.enabled)
+
+                if (payload.type == "notification")
                 {
-                    PostImageNotification(session.SessionID, payload);
+                    if (payload.customProperties.enabled)
+                    {
+                        PostImageNotification(session.SessionID, payload);
+                    }
+                    else if (payload.basicMessage?.Length > 0)
+                    {
+                        PostNotification(session, payload);
+                    }
+                    else
+                    {
+                        _server.SendMessage(session,
+                            JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, "Error",
+                                "Payload appears to be missing data.")));
+                    }
                 }
-                else if (payload.basicMessage?.Length > 0)
+                else if (payload.type == "command")
                 {
-                    PostNotification(session, payload);
+                    if (payload.command.StartsWith("vibrate_controller_"))
+                    {
+                        switch (payload.command)
+                        {
+                            case "vibrate_controller_right":
+                                _vr.TriggerHapticPulseInController(ETrackedControllerRole.RightHand);
+                                break;
+                            case "vibrate_controller_left":
+                                _vr.TriggerHapticPulseInController(ETrackedControllerRole.LeftHand);
+                                break;
+                            case "vibrate_controller_both":
+                                _vr.TriggerHapticPulseInController(ETrackedControllerRole.RightHand);
+                                _vr.TriggerHapticPulseInController(ETrackedControllerRole.LeftHand);
+                                break;
+                        }
+                    }
                 }
-                else {
-                    _server.SendMessage(session, JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, "Error", "Payload appears to be missing data.")));
+                else
+                {
+                    _server.SendMessage(session, JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, "Error", $"Unknown payload type: {payload.type}")));
                 }
+                return Task.CompletedTask;
             };
         }
         
-        public void Start()
+        public async void Start()
         {
-            _server.StartAsync(Settings.Default.Port);
+            await _server.StartAsync(Settings.Default.Port);
         }
 
-        public void SetPort(int port)
+        public async void SetPort(int port)
         {
-            _server.RestartAsync(port);
+            await _server.RestartAsync(port);
         }
 
-        public void Shutdown()
+        public async void Shutdown()
         {
             _openvrStatusAction = (status) => { };
             _server.ResetActions();
             _steamVRShutDown = true;
-            _server.StopAsync();
+            await _server.StopAsync();
         }
 
         public static string CreateMD5(string input) // https://stackoverflow.com/a/24031467

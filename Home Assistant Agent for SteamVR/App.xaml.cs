@@ -1,8 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Navigation;
 using WinUIEx;
 using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Microsoft.Windows.AppLifecycle;
 
@@ -58,7 +56,12 @@ namespace Home_Assistant_Agent_for_SteamVR
                 MWindow.SetIsAlwaysOnTop(true);
             }
 
-            if (Settings.Default.LaunchMinimized)
+            if (!Settings.Default.LaunchMinimized) return;
+            if (Settings.Default.EnableTray)
+            {
+                MWindow.Hide();
+            }
+            else
             {
                 MWindow.Minimize();
             }
@@ -89,9 +92,5 @@ namespace Home_Assistant_Agent_for_SteamVR
             MWindow.BringToFront();
         }
 
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
     }
 }

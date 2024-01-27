@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Home_Assistant_Agent_for_SteamVR.Notification
+﻿namespace Home_Assistant_Agent_for_SteamVR.Notification
 {
     class Response
     {

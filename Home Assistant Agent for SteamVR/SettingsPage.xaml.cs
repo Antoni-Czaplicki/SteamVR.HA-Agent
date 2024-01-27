@@ -3,10 +3,7 @@ using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using WinUIEx;
-using System;
-using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -33,8 +30,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 ButtonAutomationPeer peer = new ButtonAutomationPeer(SavePortButton);
-                IInvokeProvider invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
-                invokeProv.Invoke();
+                if (peer.GetPattern(PatternInterface.Invoke) is IInvokeProvider invokeProv) invokeProv.Invoke();
                 VisualStateManager.GoToState(SavePortButton, "Pressed", true);
             } else
             {
@@ -53,6 +49,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             Settings.Default.EnableTray = EnableTrayToggle.IsOn;
             Settings.Default.Save();
+            (Application.Current as App)?.MWindow.SetTrayIconVisibility(Settings.Default.EnableTray);
         }
         
         private void AlwaysOnTop_Toggled(object sender, RoutedEventArgs e)

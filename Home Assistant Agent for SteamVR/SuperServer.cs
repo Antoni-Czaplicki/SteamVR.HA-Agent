@@ -5,10 +5,8 @@ using SuperSocket.WebSocket.Server;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using SuperSocket.Server;
 
 namespace Home_Assistant_Agent_for_SteamVR
 {
@@ -25,17 +23,22 @@ namespace Home_Assistant_Agent_for_SteamVR
         }
 
         private IHost host;
+
         public ListenOptions LServerOptions = new ListenOptions
         {
             Ip = "Any",
             Port = 8077
         };
-        private readonly ConcurrentDictionary<string, WebSocketSession> _sessions = new ConcurrentDictionary<string, WebSocketSession>(); // Was getting crashes when loading all sessions from _server directly
+
+        private readonly ConcurrentDictionary<string, WebSocketSession> _sessions =
+            new ConcurrentDictionary<string, WebSocketSession>(); // Was getting crashes when loading all sessions from _server directly
 
         #region Actions
+
         public Action<WebSocketSession, int> SessionHandler;
-        public Action<WebSocketSession, string> MessageReceievedAction;
+        public Func<WebSocketSession, string, Task> MessageReceievedAction;
         public Action<WebSocketSession, bool, string> StatusMessageAction;
+
         #endregion
 
         public SuperServer(int port = 0)
@@ -45,33 +48,30 @@ namespace Home_Assistant_Agent_for_SteamVR
         }
 
         #region Manage
+
         public async Task StartAsync(int port)
         {
             // Stop in case of already running
-            StopAsync();
-            
+            await StopAsync();
+
             LServerOptions.Port = port;
 
             host = WebSocketHostBuilder.Create()
                 .UseWebSocketMessageHandler(
                     async (session, message) =>
                     {
-                        Server_NewMessageReceived(session, message.Message);
-                        await session.SendAsync(message.Message);
+                        await Server_NewMessageReceived(session, message.Message);
                     }
                 )
-                .UseSessionHandler(async (s) =>
-                {
-                    await Server_NewSessionConnected(s as WebSocketSession);
-                },
-                async (s, e) =>
-                {
-                    // s: the session
-                    // e: the CloseEventArgs
-                    // e.Reason: the close reason
-                    // things to do after the session closes
-                    await Server_SessionClosedAsync(s as WebSocketSession, e.Reason);
-                })
+                .UseSessionHandler(async (s) => { await Server_NewSessionConnected(s as WebSocketSession); },
+                    async (s, e) =>
+                    {
+                        // s: the session
+                        // e: the CloseEventArgs
+                        // e.Reason: the close reason
+                        // things to do after the session closes
+                        await Server_SessionClosedAsync(s as WebSocketSession, e.Reason);
+                    })
                 .ConfigureSuperSocket(options =>
                 {
                     options.Name = "Home Assistant Agent for SteamVR";
@@ -80,10 +80,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                     options.MaxPackageLength = 1024 * 1024;
                 })
                 .UseInProcSessionContainer()
-                .ConfigureLogging((hostCtx, loggingBuilder) =>
-                {
-                    loggingBuilder.AddConsole();
-                })
+                .ConfigureLogging((hostCtx, loggingBuilder) => { loggingBuilder.AddConsole(); })
                 .Build();
 
             await host.RunAsync();
@@ -114,26 +111,34 @@ namespace Home_Assistant_Agent_for_SteamVR
                         }
                     }
                 }
+
                 await host.StopAsync();
             }
         }
-        
+
         public async Task RestartAsync(int port)
         {
             await StopAsync();
             await StartAsync(port);
         }
-        
+
         public ServerState GetState()
         {
             if (host == null) return ServerState.None;
-            foreach (var service in host.Services.GetServices<IHostedService>())
+            try
             {
-                if (service is IServer server)
+                foreach (var service in host.Services.GetServices<IHostedService>())
                 {
-                    return server.State;
+                    if (service is IServer server)
+                    {
+                        return server.State;
+                    }
                 }
             }
+            catch (ObjectDisposedException)
+            {
+            }
+
             return ServerState.None;
         }
 
@@ -146,15 +151,18 @@ namespace Home_Assistant_Agent_for_SteamVR
             MessageReceievedAction = (session, message) =>
             {
                 Debug.WriteLine($"SuperServer.MessageReceivedAction not set, missed message: {message}");
+                return Task.CompletedTask;
             };
             StatusMessageAction = (session, connected, message) =>
             {
                 Debug.WriteLine($"SuperServer.StatusMessageAction not set, missed status: {connected} {message}");
             };
         }
+
         #endregion
 
-        #region Listeners 
+        #region Listeners
+
         private async Task Server_NewSessionConnected(WebSocketSession session)
         {
             _sessions[session.SessionID] = session;
@@ -162,9 +170,9 @@ namespace Home_Assistant_Agent_for_SteamVR
             SessionHandler(session, _sessions.Count);
         }
 
-        private void Server_NewMessageReceived(WebSocketSession session, string value)
+        private async Task Server_NewMessageReceived(WebSocketSession session, string value)
         {
-            MessageReceievedAction.Invoke(session, value);
+            await MessageReceievedAction.Invoke(session, value);
         }
 
 
@@ -174,9 +182,11 @@ namespace Home_Assistant_Agent_for_SteamVR
             StatusMessageAction.Invoke(null, false, $"Session closed: {session.SessionID}");
             SessionHandler(session, _sessions.Count);
         }
+
         #endregion
 
         #region Send
+
         public void SendMessage(WebSocketSession session, string message)
         {
             if (session.Server.State != ServerState.Started) return;
@@ -186,6 +196,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             }
             else SendMessageToAll(message);
         }
+
         public void SendMessageToAll(string message)
         {
             foreach (var session in _sessions.Values)
@@ -193,6 +204,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                 if (session != null) SendMessage(session, message);
             }
         }
+
         #endregion
     }
 }

@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using WinRT.Interop;
+using WinUIEx;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -70,8 +71,9 @@ namespace Home_Assistant_Agent_for_SteamVR
             _controller.Start();
             
             m_AppWindow.Closing += AppWindow_Closing;
-
         }
+
+        
 
         private AppWindow GetAppWindowForCurrentWindow()
         {
@@ -85,7 +87,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             Shutdown();
         }
 
-        public string GetAppTitleFromSystem()
+        private string GetAppTitleFromSystem()
         {
             return Windows.ApplicationModel.Package.Current.DisplayName;
         }
@@ -93,6 +95,18 @@ namespace Home_Assistant_Agent_for_SteamVR
         public void Shutdown()
         {
             _controller.Shutdown();
+            TrayIconView.Dispose();
+        }
+        
+        public void SetTrayIconVisibility(bool visible)
+        {
+            TrayIconView.SetTrayIconVisibility(visible);
+        }
+        
+        public void Exit()
+        {
+            _controller.Shutdown();
+            Application.Current.Exit();
         }
         
         public void SetWebsocketPort(int port)
@@ -139,6 +153,14 @@ namespace Home_Assistant_Agent_for_SteamVR
                     .First(n => n.Tag.Equals(ContentFrame.SourcePageType.FullName.ToString()));
             }
 
+        }
+
+        private void MainWindow_OnWindowStateChanged(object sender, WindowState e)
+        {
+            if (Settings.Default.EnableTray && e == WindowState.Minimized)
+            {
+                this.Hide();
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
 
 namespace Home_Assistant_Agent_for_SteamVR
 {
