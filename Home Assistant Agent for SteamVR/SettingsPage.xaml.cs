@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
@@ -23,6 +25,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             EnableTrayToggle.IsOn = Settings.Default.EnableTray;
             ExitWithSteamVRToggle.IsOn = Settings.Default.ExitWithSteamVR;
             AlwaysOnTopToggle.IsOn = Settings.Default.AlwaysOnTop;
+            EnableNotifyPluginToggle.IsOn = Settings.Default.EnableNotifyPlugin;
         }
 
         private void PortBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -32,7 +35,8 @@ namespace Home_Assistant_Agent_for_SteamVR
                 ButtonAutomationPeer peer = new ButtonAutomationPeer(SavePortButton);
                 if (peer.GetPattern(PatternInterface.Invoke) is IInvokeProvider invokeProv) invokeProv.Invoke();
                 VisualStateManager.GoToState(SavePortButton, "Pressed", true);
-            } else
+            }
+            else
             {
                 VisualStateManager.GoToState(SavePortButton, "Normal", true);
                 SavePortButton.Content = "Save";
@@ -51,7 +55,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             Settings.Default.Save();
             (Application.Current as App)?.MWindow.SetTrayIconVisibility(Settings.Default.EnableTray);
         }
-        
+
         private void AlwaysOnTop_Toggled(object sender, RoutedEventArgs e)
         {
             Settings.Default.AlwaysOnTop = AlwaysOnTopToggle.IsOn;
@@ -65,6 +69,37 @@ namespace Home_Assistant_Agent_for_SteamVR
             Settings.Default.Save();
         }
 
+        private void EnableNotifyPlugin_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.EnableNotifyPlugin = EnableNotifyPluginToggle.IsOn;
+            Settings.Default.Save();
+            if (EnableNotifyPluginToggle.IsOn)
+            {
+                if (Process.GetProcessesByName("SteamVR.NotifyPlugin").Count() > 0)
+                {
+                    Debug.WriteLine("SteamVR.NotifyPlugin is already running");
+                }
+                else
+                {
+                    var startInfo = new ProcessStartInfo("SteamVR.NotifyPlugin.exe");
+                    startInfo.WorkingDirectory =
+                        Windows.ApplicationModel.Package.Current.InstalledPath + "\\NotifyPlugin";
+                    startInfo.UseShellExecute = true;
+                    Process.Start(startInfo);
+                }
+            }
+            else
+            {
+                if (Process.GetProcessesByName("SteamVR.NotifyPlugin").Count() > 0)
+                {
+                    foreach (var process in Process.GetProcessesByName("SteamVR.NotifyPlugin"))
+                    {
+                        process.Kill();
+                    }
+                }
+            }
+        }
+
         private void SavePortButton_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.Port = int.Parse(PortBox.Text);
@@ -72,6 +107,5 @@ namespace Home_Assistant_Agent_for_SteamVR
             (Application.Current as App)?.MWindow.SetWebsocketPort(Settings.Default.Port);
             SavePortButton.Content = "Saved!";
         }
-
     }
 }

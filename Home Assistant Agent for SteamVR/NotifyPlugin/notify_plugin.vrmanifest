@@ -1,0 +1,16 @@
+{
+	"applications": [
+		{
+			"app_key": "antek.steamvr_ha_agent_notify_plugin",
+			"launch_type": "binary",
+			"binary_path_windows": "SteamVR.NotifyPlugin.exe",
+			"is_dashboard_overlay": true,
+			"strings": {
+				"en_us": {
+					"name": "Home Assistant Agent for SteamVR: Notify Plugin",
+					"description": "Plugin for the Home Assistant Agent for SteamVR that allows you to send advanced notifications to your VR headset."
+				}
+			}
+		}
+	]
+}

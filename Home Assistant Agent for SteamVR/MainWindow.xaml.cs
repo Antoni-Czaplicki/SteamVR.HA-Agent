@@ -71,6 +71,21 @@ namespace Home_Assistant_Agent_for_SteamVR
             _controller.Start();
             
             m_AppWindow.Closing += AppWindow_Closing;
+            
+            if (Settings.Default.EnableNotifyPlugin)
+            {
+                if (Process.GetProcessesByName("SteamVR.NotifyPlugin").Count() > 0)
+                {
+                    Debug.WriteLine("SteamVR.NotifyPlugin is already running");
+                } else
+                {
+                    var startInfo = new ProcessStartInfo("SteamVR.NotifyPlugin.exe");
+                    startInfo.WorkingDirectory = Windows.ApplicationModel.Package.Current.InstalledPath + "\\NotifyPlugin";
+                    startInfo.UseShellExecute = true;
+                    Process.Start(startInfo);
+                }
+
+            }
         }
 
         

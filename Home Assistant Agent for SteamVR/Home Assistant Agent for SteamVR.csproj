@@ -21,7 +21,7 @@
         <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
         <GenerateTestArtifacts>True</GenerateTestArtifacts>
         <AppxBundle>Auto</AppxBundle>
-        <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+        <AppxBundlePlatforms>x64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
     </PropertyGroup>
@@ -111,6 +111,24 @@
         <Page Update="MainPage.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="NotifyPlugin\notify_plugin.vrmanifest" />
+      <AdditionalFiles Include="NotifyPlugin\notify_plugin.vrmanifest">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <None Remove="NotifyPlugin\SteamVR.NotifyPlugin.exe" />
+      <AdditionalFiles Include="NotifyPlugin\SteamVR.NotifyPlugin.exe">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <None Remove="NotifyPlugin\shaders\shader.vert" />
+      <AdditionalFiles Include="NotifyPlugin\shaders\shader.vert">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <None Remove="NotifyPlugin\shaders\shader3d.frag" />
+      <AdditionalFiles Include="NotifyPlugin\shaders\shader3d.frag">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
     </ItemGroup>
 
     <!-- 

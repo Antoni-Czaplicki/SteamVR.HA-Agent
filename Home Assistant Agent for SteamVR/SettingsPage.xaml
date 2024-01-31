@@ -53,35 +53,12 @@
                                    HeaderIcon="{ui:FontIcon Glyph=&#xE7E8;}">
                 <ToggleSwitch Toggled="ExitWithSteamVR_Toggled" Name="ExitWithSteamVRToggle" />
             </controls:SettingsCard>
-            <controls:SettingsExpander
+            <controls:SettingsCard
                 Description="Advanced notifications allow you to send your own images combined with animations to your VR headset."
                 Header="Advanced Notifications"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE7E7;}">
-                <ToggleSwitch></ToggleSwitch>
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard
-                        Header="Plugin path"
-                        HeaderIcon="{ui:FontIcon Glyph=&#xE8B7;}"
-                        Description="The path to the folder where the plugin is located.">
-                        <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBox />
-                            <Button Style="{StaticResource AccentButtonStyle}" Content="Save" />
-                        </StackPanel>
-                    </controls:SettingsCard>
-                    <controls:SettingsCard
-                        Header="Install plugin"
-                        HeaderIcon="{ui:FontIcon Glyph=&#xE896;}"
-                        Description="Install the plugin automatically and set the path.">
-                        <Button Content="Install" />
-                    </controls:SettingsCard>
-                    <controls:SettingsCard
-                        Header="Plugin source"
-                        HeaderIcon="{ui:FontIcon Glyph=&#xE943;}"
-                        Description="Click to view the plugin source code."
-                        IsClickEnabled="True" />
-                </controls:SettingsExpander.Items>
-
-            </controls:SettingsExpander>
+                HeaderIcon="{ui:FontIcon Glyph=&#xE91C;}">
+                <ToggleSwitch Toggled="EnableNotifyPlugin_Toggled" Name="EnableNotifyPluginToggle" />
+            </controls:SettingsCard>
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                        Text="About" />
 
@@ -90,7 +67,7 @@
                                        HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-200.png}">
                 <TextBlock win:IsTextSelectionEnabled="True"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="Version 0.0.3" />
+                           Text="Version 0.0.4" />
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard HorizontalContentAlignment="Left"
                                            ContentAlignment="Left">

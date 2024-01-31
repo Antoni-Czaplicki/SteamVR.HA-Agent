@@ -5,12 +5,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
-    xmlns:ui="using:CommunityToolkit.WinUI.UI" 
-    xmlns:home_assistant_agent_for_steamvr="using:Home_Assistant_Agent_for_SteamVR" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:home_assistant_agent_for_steamvr="using:Home_Assistant_Agent_for_SteamVR"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     d:DataContext="{d:DesignInstance Type=home_assistant_agent_for_steamvr:StatusViewModel}"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </Page.Resources>
 
     <StackPanel Spacing="4" Margin="16">
         <controls:SettingsCard
@@ -27,6 +32,15 @@
             Header="WebSocket Server Status"
             HeaderIcon="{ui:FontIcon Glyph=&#xE704;}">
             <TextBlock Text="{Binding wsServerState, Mode=OneWay}" />
+        </controls:SettingsCard>
+
+        <controls:SettingsCard
+            x:Name="notifyPlugin"
+            Description="Status of Notify Plugin that lets you display advanced notifications in VR"
+            Header="Notify Plugin Status"
+            Visibility="{Binding IsNotifyPluginEnabled, Converter={StaticResource BoolToVis}}"
+            HeaderIcon="{ui:FontIcon Glyph=&#xE91C;}">
+            <TextBlock Text="{Binding NotifyPluginStatusText, Mode=OneWay}" />
         </controls:SettingsCard>
 
     </StackPanel>

@@ -5,6 +5,7 @@ using SuperSocket.WebSocket.Server;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -58,10 +59,7 @@ namespace Home_Assistant_Agent_for_SteamVR
 
             host = WebSocketHostBuilder.Create()
                 .UseWebSocketMessageHandler(
-                    async (session, message) =>
-                    {
-                        await Server_NewMessageReceived(session, message.Message);
-                    }
+                    async (session, message) => { await Server_NewMessageReceived(session, message.Message); }
                 )
                 .UseSessionHandler(async (s) => { await Server_NewSessionConnected(s as WebSocketSession); },
                     async (s, e) =>
@@ -109,10 +107,24 @@ namespace Home_Assistant_Agent_for_SteamVR
                                 Debug.WriteLine($"Error closing session: {ex.Message}");
                             }
                         }
+
+                        await server.StopAsync();
                     }
                 }
 
-                await host.StopAsync();
+
+                try
+                {
+                    host.Dispose();
+                }
+                catch (System.InvalidOperationException)
+                {
+                    Debug.WriteLine("Server already stopped");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error stopping server: {ex.Message}");
+                }
             }
         }
 
@@ -203,6 +215,11 @@ namespace Home_Assistant_Agent_for_SteamVR
             {
                 if (session != null) SendMessage(session, message);
             }
+        }
+
+        public bool IsSessionConnected(string sessionId)
+        {
+            return _sessions.ContainsKey(sessionId);
         }
 
         #endregion

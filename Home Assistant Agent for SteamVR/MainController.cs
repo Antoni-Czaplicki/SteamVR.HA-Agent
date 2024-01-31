@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Pipes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,8 +26,12 @@ namespace Home_Assistant_Agent_for_SteamVR
         private bool _steamVRShutDown = false;
         private StatusViewModel _statusViewModel;
 
+        public NamedPipeServerStream PipeServer = new NamedPipeServerStream("HomeAssistantAgentPipe",
+            PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
 
-        public MainController(StatusViewModel statusViewModel, Action<WebSocketSession, int> sessionHandler, Action<bool> openvrStatus)
+
+        public MainController(StatusViewModel statusViewModel, Action<WebSocketSession, int> sessionHandler,
+            Action<bool> openvrStatus)
         {
             _statusViewModel = statusViewModel;
             _openvrStatusAction = openvrStatus;
@@ -35,6 +40,12 @@ namespace Home_Assistant_Agent_for_SteamVR
             if (!notificationsThread.IsAlive) notificationsThread.Start();
             var sensorsThread = new Thread(SensorsWorker);
             if (!sensorsThread.IsAlive) sensorsThread.Start();
+            PipeServer.BeginWaitForConnection(new AsyncCallback((ar) =>
+            {
+                Debug.WriteLine("Pipe connected");
+                _statusViewModel.NotifyPluginStatus = true;
+                ReadFromPipe();
+            }), null);
         }
 
         private void SensorsWorker()
@@ -43,23 +54,42 @@ namespace Home_Assistant_Agent_for_SteamVR
             const uint INVALID_INDEX_VALUE = 4294967295;
             while (true)
             {
+                if (_steamVRShutDown) return;
                 if (_steamVRConnected)
                 {
                     var runningApplicationId = _vr.GetRunningApplicationId();
                     var rightControllerIndex = _vr.GetIndexForControllerRole(ETrackedControllerRole.RightHand);
                     var leftControllerIndex = _vr.GetIndexForControllerRole(ETrackedControllerRole.LeftHand);
-                    var rightController = (rightControllerIndex == INVALID_INDEX_VALUE) ? new Controller(false) : new Controller(true, (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(rightControllerIndex, ETrackedDeviceProperty.Prop_DeviceBatteryPercentage_Float) * 100), _vr.GetBooleanTrackedDeviceProperty(rightControllerIndex, ETrackedDeviceProperty.Prop_DeviceIsCharging_Bool));
-                    var leftController = (leftControllerIndex == INVALID_INDEX_VALUE) ? new Controller(false) : new Controller(true, (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(leftControllerIndex, ETrackedDeviceProperty.Prop_DeviceBatteryPercentage_Float) * 100), _vr.GetBooleanTrackedDeviceProperty(leftControllerIndex, ETrackedDeviceProperty.Prop_DeviceIsCharging_Bool));
-                    _server.SendMessageToAll(JsonConvert.SerializeObject(new State(true, _vr.GetTrackedDeviceActivityLevel(0), runningApplicationId, _vr.GetApplicationPropertyString(runningApplicationId, EVRApplicationProperty.Name_String), rightController, leftController)));
-                } else
+                    var rightController = (rightControllerIndex == INVALID_INDEX_VALUE)
+                        ? new Controller(false)
+                        : new Controller(true,
+                            (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(rightControllerIndex,
+                                ETrackedDeviceProperty.Prop_DeviceBatteryPercentage_Float) * 100),
+                            _vr.GetBooleanTrackedDeviceProperty(rightControllerIndex,
+                                ETrackedDeviceProperty.Prop_DeviceIsCharging_Bool));
+                    var leftController = (leftControllerIndex == INVALID_INDEX_VALUE)
+                        ? new Controller(false)
+                        : new Controller(true,
+                            (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(leftControllerIndex,
+                                ETrackedDeviceProperty.Prop_DeviceBatteryPercentage_Float) * 100),
+                            _vr.GetBooleanTrackedDeviceProperty(leftControllerIndex,
+                                ETrackedDeviceProperty.Prop_DeviceIsCharging_Bool));
+                    _server.SendMessageToAll(JsonConvert.SerializeObject(new State(true,
+                        _vr.GetTrackedDeviceActivityLevel(0), runningApplicationId,
+                        _vr.GetApplicationPropertyString(runningApplicationId, EVRApplicationProperty.Name_String),
+                        rightController, leftController)));
+                }
+                else
                 {
                     _server.SendMessageToAll(JsonConvert.SerializeObject(new State(false)));
                 }
+
                 Thread.Sleep(1000);
             }
         }
 
         #region openvr
+
         private void Worker()
         {
             var initComplete = false;
@@ -72,18 +102,17 @@ namespace Home_Assistant_Agent_for_SteamVR
                     if (!initComplete)
                     {
                         initComplete = true;
-                        _vr.AddApplicationManifest(Windows.ApplicationModel.Package.Current.InstalledPath + "\\app.vrmanifest", "antek.steamvr_ha_agent", true);
+                        _vr.AddApplicationManifest(
+                            Windows.ApplicationModel.Package.Current.InstalledPath + "\\app.vrmanifest",
+                            "antek.steamvr_ha_agent", true);
                         _openvrStatusAction.Invoke(true);
                         RegisterEvents();
-                        _vr.SetDebugLogAction((message) =>
-                        {
-                            _server.SendMessageToAll(JsonConvert.SerializeObject(new Response("", "Debug", message)));
-                        });
                     }
                     else
                     {
                         _vr.UpdateEvents(false);
                     }
+
                     Thread.Sleep(250);
                 }
                 else
@@ -93,22 +122,27 @@ namespace Home_Assistant_Agent_for_SteamVR
                         Debug.WriteLine("Initializing OpenVR...");
                         _steamVRConnected = _vr.Init();
                     }
+
                     Thread.Sleep(2000);
                 }
-                if (_steamVRShutDown) {
-                    _steamVRShutDown = false;
-                    initComplete = false;
-                    // _vr.AcknowledgeShutdown();
+
+                if (_steamVRShutDown)
+                {
+                    _vr.AcknowledgeShutdown();
                     Thread.Sleep(500); // Allow things to deinit properly
                     _vr.Shutdown();
                     _openvrStatusAction.Invoke(false);
+                    return;
                 }
+
                 _statusViewModel.wsServerState = _server.GetState();
-            }            
+            }
         }
 
-        private void RegisterEvents() {
-            _vr.RegisterEvent(EVREventType.VREvent_Quit, (data) => {
+        private void RegisterEvents()
+        {
+            _vr.RegisterEvent(EVREventType.VREvent_Quit, (data) =>
+            {
                 _steamVRConnected = false;
                 _steamVRShutDown = true;
             });
@@ -118,7 +152,8 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             // Overlay
             Session.OverlayHandles.TryGetValue(session, out ulong overlayHandle);
-            if (overlayHandle == 0L) {
+            if (overlayHandle == 0L)
+            {
                 if (Session.OverlayHandles.Count >= 32) Session.OverlayHandles.Clear(); // Max 32, restart!
                 overlayHandle = _vr.InitNotificationOverlay(payload.basicTitle);
                 Session.OverlayHandles.TryAdd(session, overlayHandle);
@@ -131,14 +166,18 @@ namespace Home_Assistant_Agent_for_SteamVR
             try
             {
                 Bitmap bmp = null;
-                if (payload.imageData?.Length > 0) {
+                if (payload.imageData?.Length > 0)
+                {
                     var imageBytes = Convert.FromBase64String(payload.imageData);
                     bmp = new Bitmap(new MemoryStream(imageBytes));
-                } else if(payload.imagePath.Length > 0)
+                }
+                else if (payload.imagePath.Length > 0)
                 {
                     bmp = new Bitmap(payload.imagePath);
                 }
-                if (bmp != null) {
+
+                if (bmp != null)
+                {
                     Debug.WriteLine($"Bitmap size: {bmp.Size.ToString()}");
                     bitmap = BitmapUtils.NotificationBitmapFromBitmap(bmp, true);
                     bmp.Dispose();
@@ -148,10 +187,13 @@ namespace Home_Assistant_Agent_for_SteamVR
             {
                 var message = $"Image Read Failure: {e.Message}";
                 Debug.WriteLine(message);
-                _server.SendMessage(session, JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, "Error", message)));
+                _server.SendMessage(session,
+                    JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false, "image_read_error",
+                        message)));
             }
+
             // Broadcast
-            if(overlayHandle != 0)
+            if (overlayHandle != 0)
             {
                 GC.KeepAlive(bitmap);
                 _vr.EnqueueNotification(overlayHandle, payload.basicMessage, bitmap);
@@ -160,7 +202,31 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         private void PostImageNotification(string sessionId, Payload payload)
         {
+            if (!Settings.Default.EnableNotifyPlugin)
+            {
+                _server.SendMessage(Session.Sessions[sessionId],
+                    JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                        "notify_plugin_disabled", "Notify plugin is not enabled")));
+            }
             // TODO: Forward to external plugin
+            if (PipeServer.IsConnected)
+            {
+                try
+                {
+                    Debug.WriteLine($"Pipe connected, writing to pipe...");
+                    var payloadWithSessionId = new PayloadWithSessionId(payload, sessionId);
+                    PipeServer.Write(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(payloadWithSessionId)));
+                    PipeServer.Flush();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Pipe write error: {e.Message}");
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Pipe not connected");
+            }
         }
 
         #endregion
@@ -170,15 +236,23 @@ namespace Home_Assistant_Agent_for_SteamVR
             _server.SessionHandler = sessionHandler;
             _server.MessageReceievedAction = (session, payloadJson) =>
             {
-                if (!Session.Sessions.ContainsKey(session.SessionID)) {
+                if (!Session.Sessions.ContainsKey(session.SessionID))
+                {
                     Session.Sessions.TryAdd(session.SessionID, session);
                 }
+
                 var payload = new Payload();
-                try { payload = JsonConvert.DeserializeObject<Payload>(payloadJson); }
-                catch (Exception e) {
+                try
+                {
+                    payload = JsonConvert.DeserializeObject<Payload>(payloadJson);
+                }
+                catch (Exception e)
+                {
                     var message = $"JSON Parsing Exception: {e.Message}";
                     Debug.WriteLine(message);
-                    _server.SendMessage(session, JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, "Error", message)));
+                    _server.SendMessage(session,
+                        JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                            "json_parse_error", message)));
                 }
 
                 if (payload.type == "notification")
@@ -194,8 +268,9 @@ namespace Home_Assistant_Agent_for_SteamVR
                     else
                     {
                         _server.SendMessage(session,
-                            JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, "Error",
-                                "Payload appears to be missing data.")));
+                            JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                                "invalid_notification",
+                                "Custom notification is not enabled and basic message is empty")));
                     }
                 }
                 else if (payload.type == "command")
@@ -204,27 +279,39 @@ namespace Home_Assistant_Agent_for_SteamVR
                     {
                         switch (payload.command)
                         {
-                            case "vibrate_controller_right":
-                                _vr.TriggerHapticPulseInController(ETrackedControllerRole.RightHand);
+                            case "vibrate_controller_right": 
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 50000, 50000, 10);
                                 break;
                             case "vibrate_controller_left":
-                                _vr.TriggerHapticPulseInController(ETrackedControllerRole.LeftHand);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 50000, 50000, 10);
                                 break;
                             case "vibrate_controller_both":
-                                _vr.TriggerHapticPulseInController(ETrackedControllerRole.RightHand);
-                                _vr.TriggerHapticPulseInController(ETrackedControllerRole.LeftHand);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 50000, 50000, 10);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 50000, 50000, 10);
                                 break;
                         }
                     }
                 }
                 else
                 {
-                    _server.SendMessage(session, JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, "Error", $"Unknown payload type: {payload.type}")));
+                    _server.SendMessage(session,
+                        JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false, "invalid_type",
+                            "Invalid payload type")));
                 }
+
                 return Task.CompletedTask;
             };
         }
         
+        private async Task TriggerRepeatedHapticPulseInController(ETrackedControllerRole role, ushort duration, int pause, int repeat)
+        {
+            for (int i = 0; i < repeat; i++)
+            {
+                _vr.TriggerHapticPulseInController(role, duration);
+                await Task.Delay(pause);
+            }
+        }
+
         public async void Start()
         {
             await _server.StartAsync(Settings.Default.Port);
@@ -237,10 +324,96 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         public async void Shutdown()
         {
+            if (PipeServer.IsConnected)
+            {
+                await PipeServer.WriteAsync(Encoding.UTF8.GetBytes(
+                    JsonConvert.SerializeObject(new PayloadWithSessionId(new Payload() { type = "exit" }, ""))));
+                await PipeServer.FlushAsync();
+            }
+            PipeServer.Close();
+            await PipeServer.DisposeAsync();
             _openvrStatusAction = (status) => { };
             _server.ResetActions();
             _steamVRShutDown = true;
             await _server.StopAsync();
+        }
+
+
+        private async Task ReadFromPipe()
+        {
+            byte[] buffer = new byte[1024 * 1024];
+
+            try
+            {
+                while (true)
+                {
+                    if (!PipeServer.IsConnected)
+                    {
+                        Debug.WriteLine("Pipe disconnected");
+                        _statusViewModel.NotifyPluginStatus = false;
+                        break;
+                    }
+
+                    var readTask = PipeServer.ReadAsync(buffer, 0, buffer.Length);
+                    var result = await readTask;
+
+                    if (readTask.IsCompletedSuccessfully)
+                    {
+                        if (result == 0)
+                        {
+                            PipeServer.Disconnect();
+                            Debug.WriteLine("Pipe disconnected");
+                            _statusViewModel.NotifyPluginStatus = false;
+                            break;
+                        }
+
+                        string message = Encoding.UTF8.GetString(buffer, 0, result);
+                        OnPipeMessageReceived(message);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Pipe read error");
+                        break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Pipe read error: {e.Message}");
+            }
+            finally
+            {
+                PipeServer.BeginWaitForConnection(new AsyncCallback((ar) =>
+                {
+                    Debug.WriteLine("Pipe connected");
+                    _statusViewModel.NotifyPluginStatus = true;
+                    ReadFromPipe();
+                }), null);
+            }
+
+            Debug.WriteLine("Pipe read complete");
+        }
+
+        private void OnPipeMessageReceived(string message)
+        {
+            try
+            {
+                var responseWithSessionId = JsonConvert.DeserializeObject<ResponseWithSessionId>(message);
+                if (responseWithSessionId.sessionID == null ||
+                    _server.IsSessionConnected(responseWithSessionId.sessionID))
+                {
+                    _server.SendMessageToAll(JsonConvert.SerializeObject(responseWithSessionId.response));
+                }
+                else
+                {
+                    _server.SendMessage(Session.Sessions[responseWithSessionId.sessionID],
+                        JsonConvert.SerializeObject(responseWithSessionId.response));
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Pipe message error: {e.Message}");
+            }
         }
 
         public static string CreateMD5(string input) // https://stackoverflow.com/a/24031467
@@ -257,6 +430,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                 {
                     sb.Append(hashBytes[i].ToString("X2"));
                 }
+
                 return sb.ToString();
             }
         }

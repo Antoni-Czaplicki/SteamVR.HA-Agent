@@ -81,5 +81,17 @@ namespace Home_Assistant_Agent_for_SteamVR {
                 this["AlwaysOnTop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableNotifyPlugin {
+            get {
+                return ((bool)(this["EnableNotifyPlugin"]));
+            }
+            set {
+                this["EnableNotifyPlugin"] = value;
+            }
+        }
     }
 }

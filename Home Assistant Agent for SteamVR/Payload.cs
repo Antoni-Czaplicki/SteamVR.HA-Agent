@@ -1,6 +1,6 @@
 ﻿namespace Home_Assistant_Agent_for_SteamVR
 {
-    class Payload
+    internal class Payload
     {
         // Basic
         public string type = "notification";
@@ -10,6 +10,7 @@
         public string imageData = "";
         public string imagePath = "";
 
+        
         // Standard notification
         public string basicTitle = "Home Assistant Agent for SteamVR";
         public string basicMessage = "";
@@ -88,6 +89,23 @@
             public string fontColor = "";
             public int horizontalAlignment = 0; // 0: Left, 1: Center, 2: Right
             public int verticalAlignment = 0; // 0: Left, 1: Center, 2: Right
+        }
+    }
+
+    internal class PayloadWithSessionId : Payload
+    {
+        public string SessionId = "";
+        
+        public PayloadWithSessionId(Payload payload, string sessionId)
+        {
+            type = payload.type;
+            command = payload.command;
+            imageData = payload.imageData;
+            imagePath = payload.imagePath;
+            basicTitle = payload.basicTitle;
+            basicMessage = payload.basicMessage;
+            customProperties = payload.customProperties;
+            SessionId = sessionId;
         }
     }
 }

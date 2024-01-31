@@ -16,6 +16,8 @@ namespace Home_Assistant_Agent_for_SteamVR.Sensor
             this.error = error;
         }
 
+        public string type { get; } = "state";
+        
         [JsonProperty(PropertyName = "is_openvr_connected")]
         public bool isOpenVRConnected { get; set; } = false;
 

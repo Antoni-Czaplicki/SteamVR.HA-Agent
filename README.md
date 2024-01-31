@@ -27,4 +27,4 @@ Compile application from the source code and install it by yourself
 
 
 
-Based on https://github.com/BOLL7708/OpenVROverlayPipe for displaying notifications
+Inspired by https://github.com/BOLL7708/OpenVROverlayPipe
