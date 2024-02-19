@@ -67,7 +67,7 @@
                                        HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-200.png}">
                 <TextBlock win:IsTextSelectionEnabled="True"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="Version 0.0.4" />
+                           Text="{x:Bind Version}" />
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard HorizontalContentAlignment="Left"
                                            ContentAlignment="Left">

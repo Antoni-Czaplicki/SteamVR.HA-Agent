@@ -128,10 +128,19 @@ namespace Home_Assistant_Agent_for_SteamVR
 
                 if (_steamVRShutDown)
                 {
-                    _vr.AcknowledgeShutdown();
-                    Thread.Sleep(500); // Allow things to deinit properly
-                    _vr.Shutdown();
-                    _openvrStatusAction.Invoke(false);
+                    if (!_steamVRConnected) return;
+                    try
+                    {
+                        _vr.AcknowledgeShutdown();
+                        Thread.Sleep(500); // Allow things to deinit properly
+                        _vr.Shutdown();
+                        _openvrStatusAction.Invoke(false);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine($"OpenVR Shutdown Error: {e.Message}");
+                    }
+
                     return;
                 }
 
@@ -208,6 +217,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                     JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
                         "notify_plugin_disabled", "Notify plugin is not enabled")));
             }
+
             // TODO: Forward to external plugin
             if (PipeServer.IsConnected)
             {
@@ -234,7 +244,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         private void InitServer(Action<WebSocketSession, int> sessionHandler)
         {
             _server.SessionHandler = sessionHandler;
-            _server.MessageReceievedAction = (session, payloadJson) =>
+            _server.MessageReceivedAction = (session, payloadJson) =>
             {
                 if (!Session.Sessions.ContainsKey(session.SessionID))
                 {
@@ -279,15 +289,19 @@ namespace Home_Assistant_Agent_for_SteamVR
                     {
                         switch (payload.command)
                         {
-                            case "vibrate_controller_right": 
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 50000, 50000, 10);
+                            case "vibrate_controller_right":
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 50000, 50000,
+                                    10);
                                 break;
                             case "vibrate_controller_left":
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 50000, 50000, 10);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 50000, 50000,
+                                    10);
                                 break;
                             case "vibrate_controller_both":
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 50000, 50000, 10);
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 50000, 50000, 10);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 50000, 50000,
+                                    10);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 50000, 50000,
+                                    10);
                                 break;
                         }
                     }
@@ -302,8 +316,9 @@ namespace Home_Assistant_Agent_for_SteamVR
                 return Task.CompletedTask;
             };
         }
-        
-        private async Task TriggerRepeatedHapticPulseInController(ETrackedControllerRole role, ushort duration, int pause, int repeat)
+
+        private async Task TriggerRepeatedHapticPulseInController(ETrackedControllerRole role, ushort duration,
+            int pause, int repeat)
         {
             for (int i = 0; i < repeat; i++)
             {
@@ -317,8 +332,14 @@ namespace Home_Assistant_Agent_for_SteamVR
             await _server.StartAsync(Settings.Default.Port);
         }
 
-        public async void SetPort(int port)
+        public async void SetPort(int port, int oldPort)
         {
+            if (port != oldPort)
+            {
+                _server.SendMessageToAll(JsonConvert.SerializeObject(new Payload()
+                    { type = "exit", command = "restart&p=" + port }));
+            }
+
             await _server.RestartAsync(port);
         }
 
@@ -330,6 +351,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                     JsonConvert.SerializeObject(new PayloadWithSessionId(new Payload() { type = "exit" }, ""))));
                 await PipeServer.FlushAsync();
             }
+
             PipeServer.Close();
             await PipeServer.DisposeAsync();
             _openvrStatusAction = (status) => { };

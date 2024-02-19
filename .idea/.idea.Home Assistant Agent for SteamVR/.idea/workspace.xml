@@ -12,26 +12,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee7c89ce-f60a-47a9-a027-1279a4101094" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/NotifyPlugin/SteamVR.NotifyPlugin.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/NotifyPlugin/notify_plugin.vrmanifest" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/NotifyPlugin/shaders/shader.vert" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/NotifyPlugin/shaders/shader3d.frag" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/App.config" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/App.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/App.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/App.xaml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainWindow.xaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Response.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Response.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Payload.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Payload.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Sensor/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Sensor/State.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Settings.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Settings.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Settings.settings" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Settings.settings" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/StatusViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/StatusViewModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SuperServer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SuperServer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,12 +28,10 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/.nuget/packages/microsoft.windowsappsdk/1.4.231219000/include/DeploymentManagerAutoInitializer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/.nuget/packages/microsoft.windowsappsdk/1.4.231219000/include/WindowsAppSDK-VersionInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Diagnostics.Process/src/System/Diagnostics/ProcessStartInfo.Win32.cs" root0="SKIP_HIGHLIGHTING" />
@@ -52,23 +39,37 @@
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Private.CoreLib/src/System/NullReferenceException.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Private.CoreLib/src/System/Runtime/ExceptionServices/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Private.CoreLib/src/System/Runtime/InteropServices/COMException.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0001a30ab86f4423a59c85f5f3b8c03d8400/17/276849b8/WebSocketHostBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0001a30ab86f4423a59c85f5f3b8c03d8400/d1/3ff87a91/WebSocketSession.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/096bf2174504462b9c68fe6e2d22feefba20/08/f99077f7/ExtendedActivationKind.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/096bf2174504462b9c68fe6e2d22feefba20/9d/a4caf1c3/IAppInstanceMethods.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/096bf2174504462b9c68fe6e2d22feefba20/d9/772d0596/AppInstance.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/41ae71da57364454a5939360c36f8c4e13be20/21/bf3d9df1/DispatcherQueueSynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/42545188fb1c418eae9cf083458005b16580/17/29cc7745/IHost.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/42545188fb1c418eae9cf083458005b16580/2e/0a40fe77/IHostBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/42545188fb1c418eae9cf083458005b16580/c4/e4b72a1e/IHostedService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/477b4e826ead4ecf86f19cf2ddbb4649c8f910/06/2e308698/IDisposable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6b8963c8399f4a0bb866633f541f0a36617b0/39/6b18d664/ExceptionHelpers.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6c649939eae04678b12665e2ba6e3f8d7000/83/59f786ba/ServerState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e2af16516aff49dab7ee06deb35b381a3d250/09/617a563d/WindowExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e2af16516aff49dab7ee06deb35b381a3d250/6c/d2088b79/HwndExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e2af16516aff49dab7ee06deb35b381a3d250/f6/59ce88e6/PInvoke.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/4e/0af8d5af/Application.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/99/1b88cb4d/IApplicationStaticsMethods.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/ba/b1f5a453/Window.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/62bcf9efefcb9a3b9d1492b48ed26e7912e14018/H.NotifyIcon.TaskbarIcon.Properties.LeftClickCommand.g.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/App.xaml.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/App.xaml.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/MainController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/SettingsPage.xaml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/SuperServer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/App.g.i.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainPage.g.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainPage.g.i.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainWindow.g.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/SettingsPage.g.i.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/XamlTypeInfo.g.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/openvr_api.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -84,33 +85,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.Home Assistant Agent for SteamVR: Home Assistant Agent for SteamVR (Unpackaged).executor": "Run",
-    "Attach to Process.3544:Home Assistant Agent for SteamVR.executor": "Debug",
-    "Publish to IIS.Home Assistant Agent for SteamVR: win10-x64.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "ToolWindowBuild.ShowToolbar": "false",
-    "UWP.Home Assistant Agent for SteamVR.executor": "Debug",
-    "git-widget-placeholder": "9ee3df82",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.Home Assistant Agent for SteamVR: Home Assistant Agent for SteamVR (Unpackaged).executor&quot;: &quot;Run&quot;,
+    &quot;Attach to Process.3544:Home Assistant Agent for SteamVR.executor&quot;: &quot;Debug&quot;,
+    &quot;Publish to IIS.Home Assistant Agent for SteamVR: win10-x64.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;ToolWindowBuild.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;UWP.Home Assistant Agent for SteamVR.executor&quot;: &quot;Debug&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\antek\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\antek\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="UWP.Home Assistant Agent for SteamVR">
     <configuration name="Home Assistant Agent for SteamVR: win10-arm64" type="DotNetMsBuildPublish" factoryName="Publish to IIS">
       <riderPublish publish_profile="win10-arm64.pubxml" pubxml_path="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Properties/PublishProfiles/win10-arm64.pubxml" uuid_high="4395132740884909096" uuid_low="-7219337876950726995" />
@@ -187,6 +188,9 @@
       <workItem from="1706686855220" duration="3751000" />
       <workItem from="1706698281653" duration="11689000" />
       <workItem from="1706728800839" duration="12742000" />
+      <workItem from="1708332239850" duration="17969000" />
+      <workItem from="1708354580602" duration="318000" />
+      <workItem from="1708354917334" duration="16000" />
     </task>
     <task id="LOCAL-00001" summary="Continue development">
       <option name="closed" value="true" />

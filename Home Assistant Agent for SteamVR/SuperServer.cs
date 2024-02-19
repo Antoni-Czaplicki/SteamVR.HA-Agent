@@ -5,7 +5,6 @@ using SuperSocket.WebSocket.Server;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,7 +36,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         #region Actions
 
         public Action<WebSocketSession, int> SessionHandler;
-        public Func<WebSocketSession, string, Task> MessageReceievedAction;
+        public Func<WebSocketSession, string, Task> MessageReceivedAction;
         public Action<WebSocketSession, bool, string> StatusMessageAction;
 
         #endregion
@@ -108,23 +107,17 @@ namespace Home_Assistant_Agent_for_SteamVR
                             }
                         }
 
-                        await server.StopAsync();
+                        if (server.State == ServerState.Started)
+                        {
+                            await server.StopAsync();
+                            await server.DisposeAsync();
+                        }
                     }
                 }
 
 
-                try
-                {
-                    host.Dispose();
-                }
-                catch (System.InvalidOperationException)
-                {
-                    Debug.WriteLine("Server already stopped");
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Error stopping server: {ex.Message}");
-                }
+                host.Dispose();
+                host = null;
             }
         }
 
@@ -160,7 +153,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             {
                 Debug.WriteLine($"SuperServer.StatusAction not set, missed status: {status} {value}");
             };
-            MessageReceievedAction = (session, message) =>
+            MessageReceivedAction = (session, message) =>
             {
                 Debug.WriteLine($"SuperServer.MessageReceivedAction not set, missed message: {message}");
                 return Task.CompletedTask;
@@ -184,7 +177,7 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         private async Task Server_NewMessageReceived(WebSocketSession session, string value)
         {
-            await MessageReceievedAction.Invoke(session, value);
+            await MessageReceivedAction.Invoke(session, value);
         }
 
 

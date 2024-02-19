@@ -17,6 +17,15 @@ namespace Home_Assistant_Agent_for_SteamVR
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
+        public string Version
+        {
+            get
+            {
+                var version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+                return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+            }
+        }
+
         public SettingsPage()
         {
             this.InitializeComponent();
@@ -102,9 +111,10 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         private void SavePortButton_Click(object sender, RoutedEventArgs e)
         {
+            var oldPort = Settings.Default.Port;
             Settings.Default.Port = int.Parse(PortBox.Text);
             Settings.Default.Save();
-            (Application.Current as App)?.MWindow.SetWebsocketPort(Settings.Default.Port);
+            (Application.Current as App)?.MWindow.SetWebsocketPort(Settings.Default.Port, oldPort);
             SavePortButton.Content = "Saved!";
         }
     }

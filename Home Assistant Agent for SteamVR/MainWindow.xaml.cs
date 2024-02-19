@@ -36,10 +36,10 @@ namespace Home_Assistant_Agent_for_SteamVR
                 null,
                 new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo()
             );
-            
+
 
             SystemBackdrop = new MicaBackdrop()
-            { Kind = MicaKind.Base };
+                { Kind = MicaKind.Base };
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
             m_AppWindow = GetAppWindowForCurrentWindow();
@@ -49,10 +49,9 @@ namespace Home_Assistant_Agent_for_SteamVR
             // Controller
             _controller = new MainController(
                 ((App)Application.Current).StatusViewModel,
-                (session, sessionCount) => {
-                    Debug.WriteLine($"MainController: Session: {sessionCount}");
-                }, 
-                (status) => { 
+                (session, sessionCount) => { Debug.WriteLine($"MainController: Session: {sessionCount}"); },
+                (status) =>
+                {
                     Debug.WriteLine($"MainController: Status: {status}");
                     ((App)Application.Current).StatusViewModel.SteamVRStatus = status;
                     if (status)
@@ -67,28 +66,28 @@ namespace Home_Assistant_Agent_for_SteamVR
                         }
                     }
                 }
-                ); 
+            );
             _controller.Start();
-            
+
             m_AppWindow.Closing += AppWindow_Closing;
-            
+
             if (Settings.Default.EnableNotifyPlugin)
             {
                 if (Process.GetProcessesByName("SteamVR.NotifyPlugin").Count() > 0)
                 {
                     Debug.WriteLine("SteamVR.NotifyPlugin is already running");
-                } else
+                }
+                else
                 {
                     var startInfo = new ProcessStartInfo("SteamVR.NotifyPlugin.exe");
-                    startInfo.WorkingDirectory = Windows.ApplicationModel.Package.Current.InstalledPath + "\\NotifyPlugin";
+                    startInfo.WorkingDirectory =
+                        Windows.ApplicationModel.Package.Current.InstalledPath + "\\NotifyPlugin";
                     startInfo.UseShellExecute = true;
                     Process.Start(startInfo);
                 }
-
             }
         }
 
-        
 
         private AppWindow GetAppWindowForCurrentWindow()
         {
@@ -96,7 +95,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
             return AppWindow.GetFromWindowId(wndId);
         }
-        
+
         private void AppWindow_Closing(object sender, AppWindowClosingEventArgs e)
         {
             Shutdown();
@@ -112,25 +111,25 @@ namespace Home_Assistant_Agent_for_SteamVR
             _controller.Shutdown();
             TrayIconView.Dispose();
         }
-        
+
         public void SetTrayIconVisibility(bool visible)
         {
             TrayIconView.SetTrayIconVisibility(visible);
         }
-        
+
         public void Exit()
         {
             _controller.Shutdown();
             Application.Current.Exit();
         }
-        
-        public void SetWebsocketPort(int port)
+
+        public void SetWebsocketPort(int port, int oldPort)
         {
-            _controller.SetPort(port);
+            _controller.SetPort(port, oldPort);
         }
 
         private void NavigationViewControl_SelectionChanged(NavigationView sender,
-                      NavigationViewSelectionChangedEventArgs args)
+            NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected == true)
             {
@@ -140,14 +139,15 @@ namespace Home_Assistant_Agent_for_SteamVR
             {
                 Type newPage = Type.GetType(args.SelectedItemContainer.Tag.ToString());
                 ContentFrame.Navigate(
-                       newPage,
-                       null,
-                       args.RecommendedNavigationTransitionInfo
-                       );
+                    newPage,
+                    null,
+                    args.RecommendedNavigationTransitionInfo
+                );
             }
         }
 
-        private void NavigationViewControl_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        private void NavigationViewControl_BackRequested(NavigationView sender,
+            NavigationViewBackRequestedEventArgs args)
         {
             if (ContentFrame.CanGoBack) ContentFrame.GoBack();
         }
@@ -167,7 +167,6 @@ namespace Home_Assistant_Agent_for_SteamVR
                     .OfType<NavigationViewItem>()
                     .First(n => n.Tag.Equals(ContentFrame.SourcePageType.FullName.ToString()));
             }
-
         }
 
         private void MainWindow_OnWindowStateChanged(object sender, WindowState e)
