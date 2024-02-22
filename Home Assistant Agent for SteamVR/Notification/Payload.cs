@@ -1,4 +1,4 @@
-﻿namespace Home_Assistant_Agent_for_SteamVR
+﻿namespace Home_Assistant_Agent_for_SteamVR.Notification
 {
     internal class Payload
     {

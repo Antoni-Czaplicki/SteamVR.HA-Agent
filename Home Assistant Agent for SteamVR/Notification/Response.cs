@@ -1,6 +1,6 @@
 ﻿namespace Home_Assistant_Agent_for_SteamVR.Notification
 {
-    class Response
+    internal class Response
     {
         public Response(string nonce, bool success = true, string errorCode = "", string errorMessage = "",
             string type = "result")

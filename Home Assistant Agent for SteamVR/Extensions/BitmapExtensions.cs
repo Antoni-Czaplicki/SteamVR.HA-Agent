@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.IO;
-using static Home_Assistant_Agent_for_SteamVR.Payload;
+using static Home_Assistant_Agent_for_SteamVR.Notification.Payload;
 
 namespace Home_Assistant_Agent_for_SteamVR.Extensions
 {

@@ -336,8 +336,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             if (port != oldPort)
             {
-                _server.SendMessageToAll(JsonConvert.SerializeObject(new Payload()
-                    { type = "exit", command = "restart&p=" + port }));
+                _server.SendMessageToAll(JsonConvert.SerializeObject(new Event("port_changed", port.ToString())));
             }
 
             await _server.RestartAsync(port);
