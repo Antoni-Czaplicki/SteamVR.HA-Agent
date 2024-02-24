@@ -12,12 +12,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee7c89ce-f60a-47a9-a027-1279a4101094" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Event.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Extensions/BitmapExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Extensions/BitmapExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Response.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Response.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Payload.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Payload.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,12 +53,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/99/1b88cb4d/IApplicationStaticsMethods.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/ba/b1f5a453/Window.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/62bcf9efefcb9a3b9d1492b48ed26e7912e14018/H.NotifyIcon.TaskbarIcon.Properties.LeftClickCommand.g.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/App.xaml.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/App.xaml.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/Extensions/BitmapExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/MainController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/SettingsPage.xaml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/SuperServer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/Notification/Response.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/App.g.i.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainPage.g.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainPage.g.i.cs" root0="SKIP_HIGHLIGHTING" />
@@ -90,7 +85,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "ToolWindowBuild.ShowToolbar": "false",
-    "UWP.Home Assistant Agent for SteamVR.executor": "Run",
+    "UWP.Home Assistant Agent for SteamVR.executor": "Debug",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
@@ -190,7 +185,8 @@
       <workItem from="1708354917334" duration="16000" />
       <workItem from="1708355241232" duration="306000" />
       <workItem from="1708546454986" duration="3056000" />
-      <workItem from="1708637060225" duration="4010000" />
+      <workItem from="1708637060225" duration="4725000" />
+      <workItem from="1708774696093" duration="3639000" />
     </task>
     <task id="LOCAL-00001" summary="Continue development">
       <option name="closed" value="true" />

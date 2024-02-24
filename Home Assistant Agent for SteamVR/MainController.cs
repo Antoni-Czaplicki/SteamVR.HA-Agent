@@ -290,18 +290,18 @@ namespace Home_Assistant_Agent_for_SteamVR
                         switch (payload.command)
                         {
                             case "vibrate_controller_right":
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 50000, 50000,
-                                    10);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
+                                    20);
                                 break;
                             case "vibrate_controller_left":
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 50000, 50000,
-                                    10);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
+                                    20);
                                 break;
                             case "vibrate_controller_both":
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 50000, 50000,
-                                    10);
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 50000, 50000,
-                                    10);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
+                                    20);
+                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
+                                    20);
                                 break;
                         }
                     }
@@ -323,7 +323,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             for (int i = 0; i < repeat; i++)
             {
                 _vr.TriggerHapticPulseInController(role, duration);
-                await Task.Delay(pause);
+                await Task.Delay(pause/1000); // Convert from microseconds to milliseconds
             }
         }
 
