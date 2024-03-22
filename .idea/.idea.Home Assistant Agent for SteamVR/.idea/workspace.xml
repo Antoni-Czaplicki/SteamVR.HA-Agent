@@ -13,6 +13,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ee7c89ce-f60a-47a9-a027-1279a4101094" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR/EasyOpenVRSingleton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR/EasyOpenVRSingleton.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" afterDir="false" />
@@ -53,9 +55,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/99/1b88cb4d/IApplicationStaticsMethods.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/ba/b1f5a453/Window.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/62bcf9efefcb9a3b9d1492b48ed26e7912e14018/H.NotifyIcon.TaskbarIcon.Properties.LeftClickCommand.g.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/Extensions/BitmapExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/MainController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/Notification/Response.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/App.g.i.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainPage.g.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainPage.g.i.cs" root0="SKIP_HIGHLIGHTING" />
@@ -77,33 +77,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.Home Assistant Agent for SteamVR: Home Assistant Agent for SteamVR (Unpackaged).executor": "Run",
-    "Attach to Process.3544:Home Assistant Agent for SteamVR.executor": "Debug",
-    "Publish to IIS.Home Assistant Agent for SteamVR: win10-x64.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "ToolWindowBuild.ShowToolbar": "false",
-    "UWP.Home Assistant Agent for SteamVR.executor": "Debug",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.Home Assistant Agent for SteamVR: Home Assistant Agent for SteamVR (Unpackaged).executor&quot;: &quot;Run&quot;,
+    &quot;Attach to Process.3544:Home Assistant Agent for SteamVR.executor&quot;: &quot;Debug&quot;,
+    &quot;Publish to IIS.Home Assistant Agent for SteamVR: win10-x64.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;ToolWindowBuild.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;UWP.Home Assistant Agent for SteamVR.executor&quot;: &quot;Debug&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\antek\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\antek\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="UWP.Home Assistant Agent for SteamVR">
     <configuration name="Home Assistant Agent for SteamVR: win10-arm64" type="DotNetMsBuildPublish" factoryName="Publish to IIS">
       <riderPublish publish_profile="win10-arm64.pubxml" pubxml_path="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Properties/PublishProfiles/win10-arm64.pubxml" uuid_high="4395132740884909096" uuid_low="-7219337876950726995" />
@@ -186,7 +186,13 @@
       <workItem from="1708355241232" duration="306000" />
       <workItem from="1708546454986" duration="3056000" />
       <workItem from="1708637060225" duration="4725000" />
-      <workItem from="1708774696093" duration="3639000" />
+      <workItem from="1708774696093" duration="3890000" />
+      <workItem from="1709977930326" duration="835000" />
+      <workItem from="1710011661308" duration="426000" />
+      <workItem from="1710012117849" duration="2221000" />
+      <workItem from="1710501258465" duration="1240000" />
+      <workItem from="1710513091131" duration="1957000" />
+      <workItem from="1711098719116" duration="1811000" />
     </task>
     <task id="LOCAL-00001" summary="Continue development">
       <option name="closed" value="true" />
@@ -212,7 +218,23 @@
       <option name="project" value="LOCAL" />
       <updated>1706344527523</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fix vibration strength for controllers (make it stronger)">
+      <option name="closed" value="true" />
+      <created>1708806062833</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1708806062833</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Update Notify Plugin to fix image notifications">
+      <option name="closed" value="true" />
+      <created>1709978633616</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1709978633616</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,7 +258,9 @@
     <MESSAGE value="Implement autostart with SteamVR" />
     <MESSAGE value="Autostart with SteamVR" />
     <MESSAGE value="Implement tray icon and controllers vibration" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement tray icon and controllers vibration" />
+    <MESSAGE value="Fix vibration strength for controllers (make it stronger)" />
+    <MESSAGE value="Update Notify Plugin to fix image notifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Notify Plugin to fix image notifications" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

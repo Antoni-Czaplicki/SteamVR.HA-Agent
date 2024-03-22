@@ -306,6 +306,62 @@ namespace Home_Assistant_Agent_for_SteamVR
                         }
                     }
                 }
+                else if (payload.type == "register_event")
+                {
+                    if (payload.command != null && payload.command.Length > 0)
+                    {
+                        try
+                        {
+                            _vr.RegisterEvent((EVREventType)Enum.Parse(typeof(EVREventType), payload.command),
+                                (data) =>
+                                {
+                                    _server.SendMessage(session,
+                                        JsonConvert.SerializeObject(new Event(payload.command,
+                                            data.data.ToString()))); // TODO: Fix data
+                                });
+                            Debug.WriteLine($"Registered event: {payload.command}");
+                            _server.SendMessage(session,
+                                JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, true)));
+                        }
+                        catch (Exception e)
+                        {
+                            _server.SendMessage(session,
+                                JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                                    "register_event_error", e.Message)));
+                        }
+                    }
+                    else
+                    {
+                        _server.SendMessage(session,
+                            JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                                "no_event_command", "No event type specified")));
+                    }
+                }
+                else if (payload.type == "unregister_event")
+                {
+                    if (payload.command != null && payload.command.Length > 0)
+                    {
+                        try
+                        {
+                            _vr.UnregisterEvent((EVREventType)Enum.Parse(typeof(EVREventType), payload.command));
+                            _server.SendMessage(session,
+                                JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, true)));
+                        }
+                        catch (Exception e)
+                        {
+                            _server.SendMessage(session,
+                                JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                                    "unregister_event_error", e.Message)));
+                        }
+                    }
+                    else
+                    {
+                        _server.SendMessage(session,
+                            JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                                "no_event_command", "No event type specified")));
+                    }
+                }
+
                 else
                 {
                     _server.SendMessage(session,
@@ -323,7 +379,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             for (int i = 0; i < repeat; i++)
             {
                 _vr.TriggerHapticPulseInController(role, duration);
-                await Task.Delay(pause/1000); // Convert from microseconds to milliseconds
+                await Task.Delay(pause / 1000); // Convert from microseconds to milliseconds
             }
         }
 
