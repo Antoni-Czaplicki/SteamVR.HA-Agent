@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Pipes;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,7 +52,6 @@ namespace Home_Assistant_Agent_for_SteamVR
         private void SensorsWorker()
         {
             Thread.CurrentThread.IsBackground = true;
-            const uint INVALID_INDEX_VALUE = 4294967295;
             while (true)
             {
                 if (_steamVRShutDown) return;
@@ -60,14 +60,14 @@ namespace Home_Assistant_Agent_for_SteamVR
                     var runningApplicationId = _vr.GetRunningApplicationId();
                     var rightControllerIndex = _vr.GetIndexForControllerRole(ETrackedControllerRole.RightHand);
                     var leftControllerIndex = _vr.GetIndexForControllerRole(ETrackedControllerRole.LeftHand);
-                    var rightController = (rightControllerIndex == INVALID_INDEX_VALUE)
+                    var rightController = (rightControllerIndex == OpenVR.k_unTrackedDeviceIndexInvalid)
                         ? new Controller(false)
                         : new Controller(true,
                             (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(rightControllerIndex,
                                 ETrackedDeviceProperty.Prop_DeviceBatteryPercentage_Float) * 100),
                             _vr.GetBooleanTrackedDeviceProperty(rightControllerIndex,
                                 ETrackedDeviceProperty.Prop_DeviceIsCharging_Bool));
-                    var leftController = (leftControllerIndex == INVALID_INDEX_VALUE)
+                    var leftController = (leftControllerIndex == OpenVR.k_unTrackedDeviceIndexInvalid)
                         ? new Controller(false)
                         : new Controller(true,
                             (int)Math.Round(_vr.GetFloatTrackedDeviceProperty(leftControllerIndex,
@@ -131,6 +131,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                     if (!_steamVRConnected) return;
                     try
                     {
+                        _server.SendMessageToAll(JsonConvert.SerializeObject(new State(false)));
                         _vr.AcknowledgeShutdown();
                         Thread.Sleep(500); // Allow things to deinit properly
                         _vr.Shutdown();
@@ -157,7 +158,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             });
         }
 
-        private void PostNotification(WebSocketSession session, Payload payload)
+        private async Task PostNotification(WebSocketSession session, Payload payload)
         {
             // Overlay
             Session.OverlayHandles.TryGetValue(session, out ulong overlayHandle);
@@ -183,6 +184,12 @@ namespace Home_Assistant_Agent_for_SteamVR
                 else if (payload.imagePath.Length > 0)
                 {
                     bmp = new Bitmap(payload.imagePath);
+                }
+                else if (payload.imageUrl.Length > 0)
+                {
+                    using var httpClient = new HttpClient();
+                    var imageBytes = await httpClient.GetByteArrayAsync(payload.imageUrl);
+                    bmp = new Bitmap(new MemoryStream(imageBytes));
                 }
 
                 if (bmp != null)
@@ -233,9 +240,32 @@ namespace Home_Assistant_Agent_for_SteamVR
                     Debug.WriteLine($"Pipe write error: {e.Message}");
                 }
             }
+            else if (Settings.Default.EnableNotifyPlugin)
+            {
+                Debug.WriteLine("Pi[pe not connected, starting pipe...");
+                PipeServer.BeginWaitForConnection(new AsyncCallback((ar) =>
+                {
+                    Debug.WriteLine("Pipe connected");
+                    _statusViewModel.NotifyPluginStatus = true;
+                    ReadFromPipe();
+                }), null);
+                try
+                {
+                    Debug.WriteLine($"Pipe connected, writing to pipe...");
+                    var payloadWithSessionId = new PayloadWithSessionId(payload, sessionId);
+                    PipeServer.Write(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(payloadWithSessionId)));
+                    PipeServer.Flush();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Pipe write error: {e.Message}");
+                }
+            }
             else
             {
-                Debug.WriteLine("Pipe not connected");
+                _server.SendMessage(Session.Sessions[sessionId],
+                    JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                        "notify_plugin_disabled", "Notify plugin is not enabled")));
             }
         }
 
@@ -263,53 +293,56 @@ namespace Home_Assistant_Agent_for_SteamVR
                     _server.SendMessage(session,
                         JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
                             "json_parse_error", message)));
+                    return Task.CompletedTask;
                 }
 
-                if (payload.type == "notification")
+                if (!_steamVRConnected)
                 {
-                    if (payload.customProperties.enabled)
-                    {
+                    JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                        "steamvr_disconnected", "SteamVR is disconnected"));
+                    return Task.CompletedTask;
+                }
+
+                switch (payload.type)
+                {
+                    case "notification" when payload.customProperties.enabled:
                         PostImageNotification(session.SessionID, payload);
-                    }
-                    else if (payload.basicMessage?.Length > 0)
-                    {
+                        break;
+                    case "notification" when payload.basicMessage?.Length > 0:
                         PostNotification(session, payload);
-                    }
-                    else
-                    {
+                        break;
+                    case "notification":
                         _server.SendMessage(session,
                             JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
                                 "invalid_notification",
                                 "Custom notification is not enabled and basic message is empty")));
-                    }
-                }
-                else if (payload.type == "command")
-                {
-                    if (payload.command.StartsWith("vibrate_controller_"))
+                        break;
+                    case "command":
                     {
-                        switch (payload.command)
+                        if (payload.command.StartsWith("vibrate_controller_"))
                         {
-                            case "vibrate_controller_right":
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
-                                    20);
-                                break;
-                            case "vibrate_controller_left":
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
-                                    20);
-                                break;
-                            case "vibrate_controller_both":
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
-                                    20);
-                                TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
-                                    20);
-                                break;
+                            switch (payload.command)
+                            {
+                                case "vibrate_controller_right":
+                                    TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
+                                        20);
+                                    break;
+                                case "vibrate_controller_left":
+                                    TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
+                                        20);
+                                    break;
+                                case "vibrate_controller_both":
+                                    TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
+                                        20);
+                                    TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
+                                        20);
+                                    break;
+                            }
                         }
+
+                        break;
                     }
-                }
-                else if (payload.type == "register_event")
-                {
-                    if (payload.command != null && payload.command.Length > 0)
-                    {
+                    case "register_event" when payload.command != null && payload.command.Length > 0:
                         try
                         {
                             _vr.RegisterEvent((EVREventType)Enum.Parse(typeof(EVREventType), payload.command),
@@ -329,18 +362,14 @@ namespace Home_Assistant_Agent_for_SteamVR
                                 JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
                                     "register_event_error", e.Message)));
                         }
-                    }
-                    else
-                    {
+
+                        break;
+                    case "register_event":
                         _server.SendMessage(session,
                             JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
                                 "no_event_command", "No event type specified")));
-                    }
-                }
-                else if (payload.type == "unregister_event")
-                {
-                    if (payload.command != null && payload.command.Length > 0)
-                    {
+                        break;
+                    case "unregister_event" when payload.command != null && payload.command.Length > 0:
                         try
                         {
                             _vr.UnregisterEvent((EVREventType)Enum.Parse(typeof(EVREventType), payload.command));
@@ -353,20 +382,19 @@ namespace Home_Assistant_Agent_for_SteamVR
                                 JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
                                     "unregister_event_error", e.Message)));
                         }
-                    }
-                    else
-                    {
+
+                        break;
+                    case "unregister_event":
                         _server.SendMessage(session,
                             JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
                                 "no_event_command", "No event type specified")));
-                    }
-                }
-
-                else
-                {
-                    _server.SendMessage(session,
-                        JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false, "invalid_type",
-                            "Invalid payload type")));
+                        break;
+                    default:
+                        _server.SendMessage(session,
+                            JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                                "invalid_type",
+                                "Invalid payload type")));
+                        break;
                 }
 
                 return Task.CompletedTask;

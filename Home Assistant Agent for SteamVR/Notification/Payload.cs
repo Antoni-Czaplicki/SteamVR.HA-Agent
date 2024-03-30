@@ -9,6 +9,7 @@
         // General
         public string imageData = "";
         public string imagePath = "";
+        public string imageUrl = "";
 
         
         // Standard notification
@@ -102,6 +103,7 @@
             command = payload.command;
             imageData = payload.imageData;
             imagePath = payload.imagePath;
+            imageUrl = payload.imageUrl;
             basicTitle = payload.basicTitle;
             basicMessage = payload.basicMessage;
             customProperties = payload.customProperties;
