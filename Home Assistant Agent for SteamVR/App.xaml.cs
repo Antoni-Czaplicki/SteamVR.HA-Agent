@@ -72,13 +72,13 @@ namespace Home_Assistant_Agent_for_SteamVR
             var manager = WindowManager.Get(MWindow);
             manager.MinWidth = 560;
             manager.MinHeight = 360;
-            if (Settings.Default.AlwaysOnTop)
+            if (AppSettings.AlwaysOnTop)
             {
                 MWindow.SetIsAlwaysOnTop(true);
             }
 
-            if (!Settings.Default.LaunchMinimized) return;
-            if (Settings.Default.EnableTray)
+            if (!AppSettings.LaunchMinimized) return;
+            if (AppSettings.EnableTray)
             {
                 MWindow.Hide();
             }

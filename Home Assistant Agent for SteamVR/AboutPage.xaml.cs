@@ -15,7 +15,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             this.InitializeComponent();
             var webView = WebView;
-            webView.Source = new Uri($"https://openvroverlaypipeeditor.tiiny.site?port={Settings.Default.Port}");
+            webView.Source = new Uri($"https://openvroverlaypipeeditor.tiiny.site?port={AppSettings.Port}");
         }
 
     }

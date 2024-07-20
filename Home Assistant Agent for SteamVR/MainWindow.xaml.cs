@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WinRT.Interop;
 using WinUIEx;
@@ -59,7 +60,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                     }
                     else
                     {
-                        if (Settings.Default.ExitWithSteamVR)
+                        if (AppSettings.ExitWithSteamVR)
                         {
                             _controller?.Shutdown();
                             Application.Current.Exit();
@@ -71,22 +72,24 @@ namespace Home_Assistant_Agent_for_SteamVR
 
             m_AppWindow.Closing += AppWindow_Closing;
 
-            if (Settings.Default.EnableNotifyPlugin)
+            if (!AppSettings.EnableNotifyPlugin) return;
+            
+            if (Process.GetProcessesByName("SteamVR.NotifyPlugin").Length > 0)
             {
-                if (Process.GetProcessesByName("SteamVR.NotifyPlugin").Count() > 0)
-                {
-                    Debug.WriteLine("SteamVR.NotifyPlugin is already running");
-                }
-                else
-                {
-                    var startInfo = new ProcessStartInfo("SteamVR.NotifyPlugin.exe");
-                    startInfo.WorkingDirectory =
-                        Windows.ApplicationModel.Package.Current.InstalledPath + "\\NotifyPlugin";
-                    startInfo.UseShellExecute = true;
-                    Process.Start(startInfo);
-                }
+                Debug.WriteLine("SteamVR.NotifyPlugin is already running");
+            }
+            else
+            {
+                var startInfo = new ProcessStartInfo("SteamVR.NotifyPlugin.exe");
+                startInfo.WorkingDirectory =
+                    Windows.ApplicationModel.Package.Current.InstalledPath + "\\NotifyPlugin";
+                startInfo.UseShellExecute = true;
+                Process.Start(startInfo);
             }
         }
+        
+        [SuppressMessage("ReSharper", "InconsistentNaming")] 
+        public bool IsSteamVRRunning => _controller.IsSteamVRRunning;
 
 
         private AppWindow GetAppWindowForCurrentWindow()
@@ -126,6 +129,16 @@ namespace Home_Assistant_Agent_for_SteamVR
         public void SetWebsocketPort(int port, int oldPort)
         {
             _controller.SetPort(port, oldPort);
+        }
+        
+        public bool RegisterManifest()
+        {
+            return _controller.RegisterManifest();
+        }
+        
+        public bool UnregisterManifest(string manifestPath)
+        {
+            return _controller.UnregisterManifest(manifestPath);
         }
 
         private void NavigationViewControl_SelectionChanged(NavigationView sender,
@@ -171,7 +184,7 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         private void MainWindow_OnWindowStateChanged(object sender, WindowState e)
         {
-            if (Settings.Default.EnableTray && e == WindowState.Minimized)
+            if (AppSettings.EnableTray && e == WindowState.Minimized)
             {
                 this.Hide();
             }

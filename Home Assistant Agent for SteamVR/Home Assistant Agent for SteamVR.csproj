@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-        <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+        <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <RootNamespace>Home_Assistant_Agent_for_SteamVR</RootNamespace>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;ARM64</Platforms>
@@ -17,15 +17,13 @@
         <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
         <PackageCertificateKeyFile>Home Assistant Agent for SteamVR_TemporaryKey.pfx</PackageCertificateKeyFile>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-        <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+        <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
         <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
         <GenerateTestArtifacts>True</GenerateTestArtifacts>
         <AppxBundle>Auto</AppxBundle>
         <AppxBundlePlatforms>x64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
-        <AssemblyVersion>0.1.0.0</AssemblyVersion>
-        <FileVersion>0.1.0.0</FileVersion>
     </PropertyGroup>
     <ItemGroup>
         <None Remove="AboutPage.xaml" />
@@ -76,11 +74,6 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Resources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Settings.Designer.cs">
-            <DesignTimeSharedInput>True</DesignTimeSharedInput>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>Settings.settings</DependentUpon>
-        </Compile>
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Update="Properties\Resources.resx">
@@ -94,10 +87,6 @@
         </None>
         <None Update="app.vrmanifest">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Settings.settings">
-            <Generator>SettingsSingleFileGenerator</Generator>
-            <LastGenOutput>Settings.Designer.cs</LastGenOutput>
         </None>
     </ItemGroup>
     <ItemGroup>

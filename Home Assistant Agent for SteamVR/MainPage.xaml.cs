@@ -11,8 +11,26 @@ namespace Home_Assistant_Agent_for_SteamVR
     {
         public MainPage()
         {
-            this.InitializeComponent();
-            this.DataContext = (Application.Current as App)?.StatusViewModel;
+            InitializeComponent();
+            DataContext = (Application.Current as App)?.StatusViewModel;
+            if (AppSettings.ManifestFilePath == "")
+            {
+                AutoStartInfoBar.IsOpen = true;
+            }
+            else
+            {
+                // check if the manifest file exists
+                if (!System.IO.File.Exists(AppSettings.ManifestFilePath))
+                {
+                    AutoStartInfoBar.IsOpen = true;
+                    AutoStartInfoBar.Content = "The manifest file does not exist. Please reconfigure the settings.";
+                }
+            }
+        }
+
+        private void OpenSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
         }
     }
 }

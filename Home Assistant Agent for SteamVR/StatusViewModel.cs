@@ -67,7 +67,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         
         public bool IsNotifyPluginEnabled
         {
-            get { return Settings.Default.EnableNotifyPlugin; }
+            get { return AppSettings.EnableNotifyPlugin; }
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

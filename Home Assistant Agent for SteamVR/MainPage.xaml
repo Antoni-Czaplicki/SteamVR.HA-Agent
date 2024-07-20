@@ -18,6 +18,17 @@
     </Page.Resources>
 
     <StackPanel Spacing="4" Margin="16">
+        <InfoBar
+            x:Name="AutoStartInfoBar"
+            IsOpen="False"
+            Severity="Warning"
+            Title="Auto-Start is disabled"
+            Message="The app will not start automatically with SteamVR. Enable it in the settings.">
+            <InfoBar.ActionButton>
+                <Button Content="Open Settings" Click="OpenSettings_Click" />
+            </InfoBar.ActionButton>
+        </InfoBar>
+
         <controls:SettingsCard
             x:Name="steamvr"
             Description="Whether SteamVR is running and connected to Agent"

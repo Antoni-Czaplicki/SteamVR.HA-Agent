@@ -1,5 +1,4 @@
-﻿using BOLL7708;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Home_Assistant_Agent_for_SteamVR.Notification;
 using Home_Assistant_Agent_for_SteamVR.Sensor;
 using System;
@@ -11,8 +10,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using EasyOpenVR;
+using EasyOpenVR.Utils;
 using Valve.VR;
-using static BOLL7708.EasyOpenVRSingleton;
 using SuperSocket.WebSocket.Server;
 
 namespace Home_Assistant_Agent_for_SteamVR
@@ -27,6 +27,8 @@ namespace Home_Assistant_Agent_for_SteamVR
         private bool _steamVRShutDown = false;
         private StatusViewModel _statusViewModel;
 
+        public bool IsSteamVRRunning => _steamVRConnected;
+        
         public NamedPipeServerStream PipeServer = new NamedPipeServerStream("HomeAssistantAgentPipe",
             PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
 
@@ -90,6 +92,40 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         #region openvr
 
+        public bool RegisterManifest()
+        {
+            var manifestFilePath = AppSettings.ManifestFilePath;
+            if (manifestFilePath.Length > 0)
+            {
+                if (_steamVRConnected)
+                {
+                    return _vr.AddApplicationManifest(manifestFilePath, "antek.steamvr_ha_agent", true);
+                }
+                Debug.WriteLine("SteamVR is not connected, cannot register manifest");
+                return false;
+            }
+
+            Debug.WriteLine("No manifest file path, skipping...");
+            return false;
+        }
+
+        public bool UnregisterManifest(string manifestFilePath)
+        {
+            if (manifestFilePath.Length > 0)
+            {
+                if (_steamVRConnected)
+                {
+                    _vr.RemoveAppManifest(manifestFilePath);
+                    return true;
+                }
+                Debug.WriteLine("SteamVR is not connected, cannot unregister manifest");
+                return false;
+            }
+
+            Debug.WriteLine("No manifest file path, skipping...");
+            return false;
+        }
+
         private void Worker()
         {
             var initComplete = false;
@@ -102,9 +138,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                     if (!initComplete)
                     {
                         initComplete = true;
-                        _vr.AddApplicationManifest(
-                            Windows.ApplicationModel.Package.Current.InstalledPath + "\\app.vrmanifest",
-                            "antek.steamvr_ha_agent", true);
+                        RegisterManifest();
                         _openvrStatusAction.Invoke(true);
                         RegisterEvents();
                     }
@@ -218,7 +252,7 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         private void PostImageNotification(string sessionId, Payload payload)
         {
-            if (!Settings.Default.EnableNotifyPlugin)
+            if (!AppSettings.EnableNotifyPlugin)
             {
                 _server.SendMessage(Session.Sessions[sessionId],
                     JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
@@ -240,7 +274,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                     Debug.WriteLine($"Pipe write error: {e.Message}");
                 }
             }
-            else if (Settings.Default.EnableNotifyPlugin)
+            else if (AppSettings.EnableNotifyPlugin)
             {
                 Debug.WriteLine("Pi[pe not connected, starting pipe...");
                 PipeServer.BeginWaitForConnection(new AsyncCallback((ar) =>
@@ -274,7 +308,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         private void InitServer(Action<WebSocketSession, int> sessionHandler)
         {
             _server.SessionHandler = sessionHandler;
-            _server.MessageReceivedAction = (session, payloadJson) =>
+            _server.MessageReceivedAction = async (session, payloadJson) =>
             {
                 if (!Session.Sessions.ContainsKey(session.SessionID))
                 {
@@ -293,14 +327,14 @@ namespace Home_Assistant_Agent_for_SteamVR
                     _server.SendMessage(session,
                         JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
                             "json_parse_error", message)));
-                    return Task.CompletedTask;
+                    return;
                 }
 
                 if (!_steamVRConnected)
                 {
                     JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
                         "steamvr_disconnected", "SteamVR is disconnected"));
-                    return Task.CompletedTask;
+                    return;
                 }
 
                 switch (payload.type)
@@ -309,7 +343,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                         PostImageNotification(session.SessionID, payload);
                         break;
                     case "notification" when payload.basicMessage?.Length > 0:
-                        PostNotification(session, payload);
+                        await PostNotification(session, payload);
                         break;
                     case "notification":
                         _server.SendMessage(session,
@@ -324,17 +358,17 @@ namespace Home_Assistant_Agent_for_SteamVR
                             switch (payload.command)
                             {
                                 case "vibrate_controller_right":
-                                    TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
+                                    await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
                                         20);
                                     break;
                                 case "vibrate_controller_left":
-                                    TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
+                                    await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
                                         20);
                                     break;
                                 case "vibrate_controller_both":
-                                    TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
+                                    await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
                                         20);
-                                    TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
+                                    await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
                                         20);
                                     break;
                             }
@@ -396,8 +430,6 @@ namespace Home_Assistant_Agent_for_SteamVR
                                 "Invalid payload type")));
                         break;
                 }
-
-                return Task.CompletedTask;
             };
         }
 
@@ -413,7 +445,7 @@ namespace Home_Assistant_Agent_for_SteamVR
 
         public async void Start()
         {
-            await _server.StartAsync(Settings.Default.Port);
+            await _server.StartAsync(AppSettings.Port);
         }
 
         public async void SetPort(int port, int oldPort)
@@ -430,13 +462,37 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             if (PipeServer.IsConnected)
             {
-                await PipeServer.WriteAsync(Encoding.UTF8.GetBytes(
-                    JsonConvert.SerializeObject(new PayloadWithSessionId(new Payload() { type = "exit" }, ""))));
-                await PipeServer.FlushAsync();
+                try
+                {
+                    await PipeServer.WriteAsync(Encoding.UTF8.GetBytes(
+                        JsonConvert.SerializeObject(new PayloadWithSessionId(new Payload() { type = "exit" }, ""))));
+                    await PipeServer.FlushAsync();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Pipe write/flush error: {e.Message}");
+                }
+
+                try
+                {
+                    PipeServer.Disconnect();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Pipe disconnect error: {e.Message}");
+                }
             }
 
-            PipeServer.Close();
-            await PipeServer.DisposeAsync();
+            try
+            {
+                PipeServer.Close();
+                await PipeServer.DisposeAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Pipe close/dispose error: {e.Message}");
+            }
+
             _openvrStatusAction = (status) => { };
             _server.ResetActions();
             _steamVRShutDown = true;

@@ -12,51 +12,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee7c89ce-f60a-47a9-a027-1279a4101094" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/AppSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/AboutPage.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/AboutPage.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/App.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/App.xaml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR/EasyOpenVRSingleton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/EasyOpenVR/EasyOpenVRSingleton.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Payload.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Notification/Payload.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainPage.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/MainWindow.xaml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/NotifyPlugin/SteamVR.NotifyPlugin.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/NotifyPlugin/SteamVR.NotifyPlugin.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Settings.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Settings.settings" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/StatusViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/StatusViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/TrayIconView.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/TrayIconView.xaml.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DpaMonitoringSettings">
+    <option name="autoShow" value="false" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/.nuget/packages/microsoft.windowsappsdk/1.5.240311000/include/WindowsAppSDK-VersionInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Diagnostics.Process/src/System/Diagnostics/ProcessStartInfo.Win32.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Private.CoreLib/src/System/Collections/Concurrent/ConcurrentQueue.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Private.CoreLib/src/System/NullReferenceException.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Private.CoreLib/src/System/Runtime/ExceptionServices/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/bf5e279d9239bfef5bb1b8d6212f1b971c434606/src/libraries/System.Private.CoreLib/src/System/Runtime/InteropServices/COMException.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0001a30ab86f4423a59c85f5f3b8c03d8400/17/276849b8/WebSocketHostBuilder.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0001a30ab86f4423a59c85f5f3b8c03d8400/d1/3ff87a91/WebSocketSession.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/096bf2174504462b9c68fe6e2d22feefba20/08/f99077f7/ExtendedActivationKind.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/096bf2174504462b9c68fe6e2d22feefba20/9d/a4caf1c3/IAppInstanceMethods.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/096bf2174504462b9c68fe6e2d22feefba20/d9/772d0596/AppInstance.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/41ae71da57364454a5939360c36f8c4e13be20/21/bf3d9df1/DispatcherQueueSynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/42545188fb1c418eae9cf083458005b16580/17/29cc7745/IHost.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/42545188fb1c418eae9cf083458005b16580/2e/0a40fe77/IHostBuilder.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/42545188fb1c418eae9cf083458005b16580/c4/e4b72a1e/IHostedService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/477b4e826ead4ecf86f19cf2ddbb4649c8f910/06/2e308698/IDisposable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6b8963c8399f4a0bb866633f541f0a36617b0/39/6b18d664/ExceptionHelpers.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6c649939eae04678b12665e2ba6e3f8d7000/83/59f786ba/ServerState.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/df791521adda4d7a98d57d4ba512976a28910/01/1473a728/PipeStream.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e2af16516aff49dab7ee06deb35b381a3d250/09/617a563d/WindowExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e2af16516aff49dab7ee06deb35b381a3d250/6c/d2088b79/HwndExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e2af16516aff49dab7ee06deb35b381a3d250/f6/59ce88e6/PInvoke.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/4e/0af8d5af/Application.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/99/1b88cb4d/IApplicationStaticsMethods.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6c32ba1df0e481b9435035b67a6e1c16c6020/ba/b1f5a453/Window.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/305daedb1b5fd445d4c526acf1363446c5b4ffbb98e3921579ccb52cb09c/Bitmap.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/62bcf9efefcb9a3b9d1492b48ed26e7912e14018/H.NotifyIcon.TaskbarIcon.Properties.LeftClickCommand.g.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9bbdf87048bd43de89b63f272a61b8876dfc20/68/477c38fd/InfoBarSeverity.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9bbdf87048bd43de89b63f272a61b8876dfc20/e1/736ab315/ToggleSwitch.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d2ef6d96d3bf411eb028281c690d074a14aca28/50/f352598f/PackageId.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d2ef6d96d3bf411eb028281c690d074a14aca28/54/cee960f6/IWindowNativeMethods.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d2ef6d96d3bf411eb028281c690d074a14aca28/cf/3d6238d0/PickerLocationId.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/antek/source/repos/Home Assistant Agent for SteamVR/Home Assistant Agent for SteamVR/SettingsPage.xaml.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/App.g.i.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainPage.g.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/MainPage.g.i.cs" root0="SKIP_HIGHLIGHTING" />
@@ -65,6 +65,10 @@
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/obj/x64/Debug/net8.0-windows10.0.19041.0/win-x64/XamlTypeInfo.g.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Home Assistant Agent for SteamVR/openvr_api.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -94,13 +98,13 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
+    "settings.editor.selected.configurable": "editor.preferences.smartKeys_rider",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
     "rider.external.source.directories": [
-      "C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\antek\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
       "C:\\Users\\antek\\AppData\\Local\\Symbols\\src"
     ]
   }
@@ -201,7 +205,15 @@
       <workItem from="1711691488052" duration="1741000" />
       <workItem from="1711736511671" duration="1107000" />
       <workItem from="1711741240937" duration="193000" />
-      <workItem from="1711790980464" duration="1332000" />
+      <workItem from="1711790980464" duration="1793000" />
+      <workItem from="1713689145393" duration="1106000" />
+      <workItem from="1713697802662" duration="1093000" />
+      <workItem from="1716364509581" duration="2480000" />
+      <workItem from="1716470031758" duration="2849000" />
+      <workItem from="1721464475093" duration="242000" />
+      <workItem from="1721466297602" duration="4640000" />
+      <workItem from="1721479706561" duration="11190000" />
+      <workItem from="1721509723445" duration="7315000" />
     </task>
     <task id="LOCAL-00001" summary="Continue development">
       <option name="closed" value="true" />
@@ -250,6 +262,7 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>

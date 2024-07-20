@@ -13,7 +13,7 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             InitializeComponent();
 
-            TrayIcon.Visibility = Settings.Default.EnableTray ? Visibility.Visible : Visibility.Collapsed;
+            TrayIcon.Visibility = AppSettings.EnableTray ? Visibility.Visible : Visibility.Collapsed;
         }
         
         public void SetTrayIconVisibility(bool visible)

@@ -28,37 +28,70 @@
                                    Header="Port"
                                    HeaderIcon="{ui:FontIcon Glyph=&#xE968;}">
                 <StackPanel Orientation="Horizontal" Spacing="4">
-                    <NumberBox KeyDown="PortBox_KeyDown" Name="PortBox" />
-                    <Button Style="{StaticResource AccentButtonStyle}" Content="Save" Name="SavePortButton"
+                    <NumberBox KeyDown="PortBox_KeyDown" x:Name="PortBox" />
+                    <Button Style="{StaticResource AccentButtonStyle}" Content="Save" x:Name="SavePortButton"
                             Click="SavePortButton_Click" />
                 </StackPanel>
             </controls:SettingsCard>
             <controls:SettingsCard Description="Launch the app minimized."
                                    Header="Launch minimized"
                                    HeaderIcon="{ui:FontIcon Glyph=&#xEE47;}">
-                <ToggleSwitch Toggled="LaunchMinimized_Toggled" Name="LaunchMinimizedToggle" />
+                <ToggleSwitch Toggled="LaunchMinimized_Toggled" x:Name="LaunchMinimizedToggle" />
             </controls:SettingsCard>
             <controls:SettingsCard Description="Put the app on top of all other windows."
                                    Header="Always on top"
                                    HeaderIcon="{ui:FontIcon Glyph=&#xE7C4;}">
-                <ToggleSwitch Toggled="AlwaysOnTop_Toggled" Name="AlwaysOnTopToggle" />
+                <ToggleSwitch Toggled="AlwaysOnTop_Toggled" x:Name="AlwaysOnTopToggle" />
             </controls:SettingsCard>
             <controls:SettingsCard Description="Minimize to tray instead of taskbar."
                                    Header="Enable Tray Icon"
                                    HeaderIcon="{ui:FontIcon Glyph=&#xF129;}">
-                <ToggleSwitch Toggled="EnableTray_Toggled" Name="EnableTrayToggle" />
+                <ToggleSwitch Toggled="EnableTray_Toggled" x:Name="EnableTrayToggle" />
             </controls:SettingsCard>
             <controls:SettingsCard Description="Close the app when SteamVR is closed."
                                    Header="Exit with SteamVR"
-                                   HeaderIcon="{ui:FontIcon Glyph=&#xE7E8;}">
-                <ToggleSwitch Toggled="ExitWithSteamVR_Toggled" Name="ExitWithSteamVRToggle" />
+                                   HeaderIcon="{ui:FontIcon Glyph=&#xEA14;}">
+                <ToggleSwitch Toggled="ExitWithSteamVR_Toggled" x:Name="ExitWithSteamVRToggle" />
             </controls:SettingsCard>
             <controls:SettingsCard
                 Description="Advanced notifications allow you to send your own images combined with animations to your VR headset."
                 Header="Advanced Notifications"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE91C;}">
-                <ToggleSwitch Toggled="EnableNotifyPlugin_Toggled" Name="EnableNotifyPluginToggle" />
+                <ToggleSwitch Toggled="EnableNotifyPlugin_Toggled" x:Name="EnableNotifyPluginToggle" />
             </controls:SettingsCard>
+            <controls:SettingsExpander Description="Open the app when SteamVR is started."
+                                       Header="Auto Start"
+                                       x:Name="AutoStartExpander"
+                                       HeaderIcon="{ui:FontIcon Glyph=&#xE7E8;}">
+                <ToggleSwitch Toggled="AutoStart_Toggled" x:Name="AutoStartToggle" />
+                <controls:SettingsExpander.ItemsHeader>
+                    <InfoBar Title="Placeholder"
+                             BorderThickness="0"
+                             CornerRadius="0"
+                             IsIconVisible="False"
+                             IsOpen="False"
+                             x:Name="AutoStartInfoBar"
+                             Severity="Informational">
+                        <InfoBar.ActionButton>
+                            <Button
+                                x:Name="AutoStartInfoBarActionButton"
+                                Visibility="Collapsed"
+                                Content="Try again"
+                                Click="AutoStartInfoBar_ActionButton_Click" />
+                        </InfoBar.ActionButton>
+                    </InfoBar>
+                </controls:SettingsExpander.ItemsHeader>
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard
+                        Description="To allow for the autostart feature to work, you need export the manifest outside of the app folder. This is a security feature of Windows. Select a folder where you want to save the manifest, preferably in location that is not frequently accessed as deleting the manifest will disable the autostart feature."
+                        Header="Export Manifest"
+                        x:Name="ExportManifestCard"
+                        HeaderIcon="{ui:FontIcon Glyph=&#xE78C;}">
+                        <Button Content="Save Manifest" Click="SaveManifestButton_Click" x:Name="SaveManifestButton" />
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                        Text="About" />
 
