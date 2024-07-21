@@ -69,6 +69,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                 AutoStartInfoBar.Title = "Manifest file path is not set, auto start is disabled";
                 AutoStartInfoBar.Severity = InfoBarSeverity.Warning;
                 AutoStartInfoBar.IsOpen = true;
+                ExportManifestCard.IsEnabled = false;
             }
 
             _isInitializing = false;
@@ -176,7 +177,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             InitializeWithWindow.Initialize(savePicker, windowHandle);
 
             savePicker.FileTypeChoices.Add("VR manifest", new List<string>() { ".vrmanifest" });
-            savePicker.SuggestedFileName = "app.vrmanifest";
+            savePicker.SuggestedFileName = "steamvr_ha_agent.vrmanifest";
 
             var file = await savePicker.PickSaveFileAsync();
 
