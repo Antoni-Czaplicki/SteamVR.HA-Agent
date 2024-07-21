@@ -13,8 +13,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ee7c89ce-f60a-47a9-a027-1279a4101094" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Home Assistant Agent for SteamVR/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/Package.appxmanifest" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Home Assistant Agent for SteamVR/SettingsPage.xaml.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,7 +204,8 @@
       <workItem from="1721479706561" duration="11190000" />
       <workItem from="1721509723445" duration="7315000" />
       <workItem from="1721546444219" duration="1331000" />
-      <workItem from="1721547811376" duration="788000" />
+      <workItem from="1721547811376" duration="1308000" />
+      <workItem from="1721551608282" duration="14000" />
     </task>
     <task id="LOCAL-00001" summary="Continue development">
       <option name="closed" value="true" />
