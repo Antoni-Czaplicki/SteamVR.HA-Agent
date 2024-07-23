@@ -1,8 +1,8 @@
 # Home Assistant Agent for SteamVR
 [![GitHub release](https://img.shields.io/github/release/Antoni-Czaplicki/SteamVR.HA-Agent?include_prereleases=&sort=semver&color=blue&style=for-the-badge)](https://github.com/Antoni-Czaplicki/SteamVR.HA-Agent/releases/)
-[![License](https://img.shields.io/badge/License-AGPL--3.0-blue?style=for-the-badge)](#license)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](#license)
 ![OS - Windows 11](https://img.shields.io/badge/OS-Windows_11-09e0fe?style=for-the-badge)
-![OS - Windows 10 1809+](https://img.shields.io/badge/OS-Windows_10_1809%2B-00adef?style=for-the-badge)
+![OS - Windows 10 1809+](https://img.shields.io/badge/OS-Windows_10%2B-00adef?style=for-the-badge)
 
 ## About
 This app allows you to connect your Home Assistant instance with SteamVR, to learn more visit the [integration repo](https://github.com/Antoni-Czaplicki/SteamVR.HA).
