@@ -7,6 +7,7 @@ namespace Home_Assistant_Agent_for_SteamVR
     {
         private SuperSocket.ServerState _wsServerStatus;
         private bool _steamVRStatus;
+        private bool _steamVRProcessStatus;
         private bool _notifyPluginStatus;
         private DispatcherQueue _dispatcherQueue;
 
@@ -40,10 +41,29 @@ namespace Home_Assistant_Agent_for_SteamVR
                 }
             }
         }
-        
+
         public string SteamVRStatusText
         {
             get { return _steamVRStatus ? "Connected" : "Disconnected"; }
+        }
+
+        public bool SteamVRProcessStatus
+        {
+            get { return _steamVRProcessStatus; }
+            set
+            {
+                if (_steamVRProcessStatus != value)
+                {
+                    _steamVRProcessStatus = value;
+                    OnPropertyChanged(nameof(SteamVRProcessStatus));
+                    OnPropertyChanged(nameof(SteamVRProcessStatusText));
+                }
+            }
+        }
+
+        public string SteamVRProcessStatusText
+        {
+            get { return _steamVRProcessStatus ? "Running" : "Not Running"; }
         }
 
         public bool NotifyPluginStatus
@@ -59,17 +79,17 @@ namespace Home_Assistant_Agent_for_SteamVR
                 }
             }
         }
-        
+
         public string NotifyPluginStatusText
         {
             get { return _notifyPluginStatus ? "Running" : "Stopped"; }
         }
-        
+
         public bool IsNotifyPluginEnabled
         {
             get { return AppSettings.EnableNotifyPlugin; }
         }
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

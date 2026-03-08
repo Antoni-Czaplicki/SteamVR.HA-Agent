@@ -5,7 +5,7 @@ namespace Home_Assistant_Agent_for_SteamVR.Sensor
 {
     class State
     {
-        public State(bool isOpenVRConnected, EDeviceActivityLevel HMDActivityLevel = EDeviceActivityLevel.k_EDeviceActivityLevel_Unknown, string? currentApplicationKey = null, string? currentApplicationName = null, Controller? rightController = null, Controller? leftController = null, string? error = null)
+        public State(bool isOpenVRConnected, EDeviceActivityLevel HMDActivityLevel = EDeviceActivityLevel.k_EDeviceActivityLevel_Unknown, string? currentApplicationKey = null, string? currentApplicationName = null, Controller? rightController = null, Controller? leftController = null, string? error = null, bool isSteamVRProcessRunning = false)
         {
             this.isOpenVRConnected = isOpenVRConnected;
             this.HMDActivityLevel = HMDActivityLevel;
@@ -14,9 +14,13 @@ namespace Home_Assistant_Agent_for_SteamVR.Sensor
             this.rightController = rightController;
             this.leftController = leftController;
             this.error = error;
+            this.isSteamVRProcessRunning = isSteamVRProcessRunning;
         }
 
         public string type { get; } = "state";
+        
+        [JsonProperty(PropertyName = "is_steamvr_process_running")]
+        public bool isSteamVRProcessRunning { get; set; } = false;
         
         [JsonProperty(PropertyName = "is_openvr_connected")]
         public bool isOpenVRConnected { get; set; } = false;

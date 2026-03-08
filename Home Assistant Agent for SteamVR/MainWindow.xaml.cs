@@ -40,7 +40,7 @@ namespace Home_Assistant_Agent_for_SteamVR
 
 
             SystemBackdrop = new MicaBackdrop()
-                { Kind = MicaKind.Base };
+            { Kind = MicaKind.Base };
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
             m_AppWindow = GetAppWindowForCurrentWindow();
@@ -63,7 +63,7 @@ namespace Home_Assistant_Agent_for_SteamVR
                         if (AppSettings.ExitWithSteamVR)
                         {
                             _controller?.Shutdown();
-                            Application.Current.Exit();
+                            DispatcherQueue.TryEnqueue(() => Application.Current.Exit());
                         }
                     }
                 }
@@ -73,7 +73,7 @@ namespace Home_Assistant_Agent_for_SteamVR
             m_AppWindow.Closing += AppWindow_Closing;
 
             if (!AppSettings.EnableNotifyPlugin) return;
-            
+
             if (Process.GetProcessesByName("SteamVR.NotifyPlugin").Length > 0)
             {
                 Debug.WriteLine("SteamVR.NotifyPlugin is already running");
@@ -87,8 +87,8 @@ namespace Home_Assistant_Agent_for_SteamVR
                 Process.Start(startInfo);
             }
         }
-        
-        [SuppressMessage("ReSharper", "InconsistentNaming")] 
+
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public bool IsSteamVRRunning => _controller.IsSteamVRRunning;
 
 
@@ -130,12 +130,12 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             _controller.SetPort(port, oldPort);
         }
-        
+
         public bool RegisterManifest()
         {
             return _controller.RegisterManifest();
         }
-        
+
         public bool UnregisterManifest(string manifestPath)
         {
             return _controller.UnregisterManifest(manifestPath);
