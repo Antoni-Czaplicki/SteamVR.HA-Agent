@@ -1,5 +1,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
+using System.IO;
+using Windows.ApplicationModel;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -13,18 +16,33 @@ namespace Home_Assistant_Agent_for_SteamVR
         {
             InitializeComponent();
             DataContext = (Application.Current as App)?.StatusViewModel;
-            if (AppSettings.ManifestFilePath == "")
+            InitializeAutoStartInfoBar();
+        }
+
+        private async void InitializeAutoStartInfoBar()
+        {
+            var isStartWithWindowsEnabled = false;
+
+            try
+            {
+                var startupTask = await StartupTask.GetAsync("HASteamvrAgentStartup");
+                isStartWithWindowsEnabled = startupTask.State == StartupTaskState.Enabled ||
+                                            startupTask.State == StartupTaskState.EnabledByPolicy;
+            }
+            catch (Exception)
+            {
+            }
+
+            if (string.IsNullOrWhiteSpace(AppSettings.ManifestFilePath))
+            {
+                AutoStartInfoBar.IsOpen = !isStartWithWindowsEnabled;
+                return;
+            }
+
+            if (!File.Exists(AppSettings.ManifestFilePath))
             {
                 AutoStartInfoBar.IsOpen = true;
-            }
-            else
-            {
-                // check if the manifest file exists
-                if (!System.IO.File.Exists(AppSettings.ManifestFilePath))
-                {
-                    AutoStartInfoBar.IsOpen = true;
-                    AutoStartInfoBar.Content = "The manifest file does not exist. Please reconfigure the settings.";
-                }
+                AutoStartInfoBar.Message = "The manifest file does not exist. Please reconfigure the settings.";
             }
         }
 

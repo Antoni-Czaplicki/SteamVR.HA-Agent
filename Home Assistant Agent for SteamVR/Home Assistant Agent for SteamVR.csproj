@@ -15,15 +15,15 @@
         <WindowsPackageType>MSIX</WindowsPackageType>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
         <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-        <PackageCertificateKeyFile>Home Assistant Agent for SteamVR_TemporaryKey.pfx</PackageCertificateKeyFile>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-        <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+        <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
         <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
         <GenerateTestArtifacts>True</GenerateTestArtifacts>
         <AppxBundle>Auto</AppxBundle>
-        <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+        <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+        <PackageCertificateThumbprint>C3EDAD41213F0F82FED5DBECEB0F7C451F235989</PackageCertificateThumbprint>
     </PropertyGroup>
     <ItemGroup>
         <None Remove="AboutPage.xaml" />
