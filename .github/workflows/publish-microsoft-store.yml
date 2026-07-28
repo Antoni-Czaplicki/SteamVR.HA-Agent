@@ -37,6 +37,7 @@ jobs:
         run: |
           msbuild "Home Assistant Agent for SteamVR.sln" `
             /restore `
+            /t:Rebuild `
             /m `
             /p:Configuration=Release `
             /p:Platform=x64 `
