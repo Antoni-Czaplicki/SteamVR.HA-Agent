@@ -117,7 +117,7 @@
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                        Text="About"/>
 
-            <controls:SettingsExpander Description="© 2024. All rights reserved."
+            <controls:SettingsExpander Description="© 2026. All rights reserved."
                                        Header="Home Assistant Agent for SteamVR"
                                        HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-200.png}">
                 <TextBlock win:IsTextSelectionEnabled="True"
