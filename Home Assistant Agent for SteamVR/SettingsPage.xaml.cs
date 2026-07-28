@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using WinRT.Interop;
 using WinUIEx;
+using StartupTask = Windows.ApplicationModel.StartupTask;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -54,6 +55,8 @@ namespace Home_Assistant_Agent_for_SteamVR
             ExitWithSteamVRToggle.IsOn = AppSettings.ExitWithSteamVR;
             AlwaysOnTopToggle.IsOn = AppSettings.AlwaysOnTop;
             EnableNotifyPluginToggle.IsOn = AppSettings.EnableNotifyPlugin;
+
+            InitStartWithWindowsToggle();
 
             if (AppSettings.ManifestFilePath != "")
             {
@@ -108,6 +111,54 @@ namespace Home_Assistant_Agent_for_SteamVR
             if (_isInitializing) return;
             AppSettings.AlwaysOnTop = AlwaysOnTopToggle.IsOn;
             (Application.Current as App)?.MWindow.SetIsAlwaysOnTop(AppSettings.AlwaysOnTop);
+        }
+
+        private async void InitStartWithWindowsToggle()
+        {
+            try
+            {
+                var startupTask = await StartupTask.GetAsync("HASteamvrAgentStartup");
+                StartWithWindowsToggle.IsOn = startupTask.State == StartupTaskState.Enabled ||
+                                              startupTask.State == StartupTaskState.EnabledByPolicy;
+                StartWithWindowsToggle.IsEnabled = startupTask.State != StartupTaskState.DisabledByPolicy &&
+                                                   startupTask.State != StartupTaskState.EnabledByPolicy;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to get startup task state: {ex.Message}");
+                StartWithWindowsToggle.IsEnabled = false;
+            }
+        }
+
+        private async void StartWithWindows_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (_isInitializing) return;
+            try
+            {
+                var startupTask = await StartupTask.GetAsync("HASteamvrAgentStartup");
+                if (StartWithWindowsToggle.IsOn)
+                {
+                    var state = await startupTask.RequestEnableAsync();
+                    // If the user denied it in the system dialog, revert the toggle
+                    if (state != StartupTaskState.Enabled && state != StartupTaskState.EnabledByPolicy)
+                    {
+                        _isInitializing = true;
+                        StartWithWindowsToggle.IsOn = false;
+                        _isInitializing = false;
+                    }
+                }
+                else
+                {
+                    startupTask.Disable();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to toggle startup task: {ex.Message}");
+                _isInitializing = true;
+                StartWithWindowsToggle.IsOn = !StartWithWindowsToggle.IsOn;
+                _isInitializing = false;
+            }
         }
 
         private void ExitWithSteamVR_Toggled(object sender, RoutedEventArgs e)

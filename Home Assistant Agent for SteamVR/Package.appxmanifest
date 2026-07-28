@@ -4,6 +4,7 @@
         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+        xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
         xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
         IgnorableNamespaces="uap rescap">
 
@@ -51,6 +52,9 @@
                         <uap:DisplayName>Home Assistant Agent for SteamVR</uap:DisplayName>
                     </uap:Protocol>
                 </uap:Extension>
+                <desktop:Extension Category="windows.startupTask" Executable="$targetnametoken$.exe" EntryPoint="Windows.FullTrustApplication">
+                    <desktop:StartupTask TaskId="HASteamvrAgentStartup" Enabled="false" DisplayName="Home Assistant Agent for SteamVR" />
+                </desktop:Extension>
             </Extensions>
         </Application>
     </Applications>

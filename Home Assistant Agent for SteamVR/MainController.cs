@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -25,10 +26,19 @@ namespace Home_Assistant_Agent_for_SteamVR
         private Action<bool> _openvrStatusAction;
         private bool _steamVRConnected = false;
         private bool _steamVRShutDown = false;
+        private bool _shouldExit = false;
+        private bool _steamVRProcessRunning = false;
         private StatusViewModel _statusViewModel;
 
         public bool IsSteamVRRunning => _steamVRConnected;
-        
+
+        private static readonly string[] SteamVRProcessNames = { "vrserver", "vrmonitor" };
+
+        private static bool IsSteamVRProcessRunning()
+        {
+            return SteamVRProcessNames.Any(name => Process.GetProcessesByName(name).Length > 0);
+        }
+
         public NamedPipeServerStream PipeServer = new NamedPipeServerStream("HomeAssistantAgentPipe",
             PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
 
@@ -56,7 +66,14 @@ namespace Home_Assistant_Agent_for_SteamVR
             Thread.CurrentThread.IsBackground = true;
             while (true)
             {
-                if (_steamVRShutDown) return;
+                if (_shouldExit) return;
+                var processRunning = IsSteamVRProcessRunning();
+                if (processRunning != _steamVRProcessRunning)
+                {
+                    _steamVRProcessRunning = processRunning;
+                    _statusViewModel.SteamVRProcessStatus = processRunning;
+                }
+
                 if (_steamVRConnected)
                 {
                     var runningApplicationId = _vr.GetRunningApplicationId();
@@ -79,11 +96,11 @@ namespace Home_Assistant_Agent_for_SteamVR
                     _server.SendMessageToAll(JsonConvert.SerializeObject(new State(true,
                         _vr.GetTrackedDeviceActivityLevel(0), runningApplicationId,
                         _vr.GetApplicationPropertyString(runningApplicationId, EVRApplicationProperty.Name_String),
-                        rightController, leftController)));
+                        rightController, leftController, isSteamVRProcessRunning: processRunning)));
                 }
                 else
                 {
-                    _server.SendMessageToAll(JsonConvert.SerializeObject(new State(false)));
+                    _server.SendMessageToAll(JsonConvert.SerializeObject(new State(false, isSteamVRProcessRunning: processRunning)));
                 }
 
                 Thread.Sleep(1000);
@@ -133,6 +150,8 @@ namespace Home_Assistant_Agent_for_SteamVR
             Thread.CurrentThread.IsBackground = true;
             while (true)
             {
+                if (_shouldExit) return;
+
                 if (_steamVRConnected)
                 {
                     if (!initComplete)
@@ -151,32 +170,35 @@ namespace Home_Assistant_Agent_for_SteamVR
                 }
                 else
                 {
-                    if (!_steamVRConnected)
+                    if (_steamVRShutDown)
                     {
-                        Debug.WriteLine("Initializing OpenVR...");
-                        _steamVRConnected = _vr.Init();
+                        // SteamVR is shutting down, clean up the connection
+                        try
+                        {
+                            _server.SendMessageToAll(JsonConvert.SerializeObject(new State(false)));
+                            _vr.AcknowledgeShutdown();
+                            Thread.Sleep(500); // Allow things to deinit properly
+                            _vr.Shutdown();
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine($"OpenVR Shutdown Error: {e.Message}");
+                        }
+
+                        _openvrStatusAction.Invoke(false);
+
+                        // If _shouldExit was set by the callback, stop the loop
+                        if (_shouldExit) return;
+
+                        // Otherwise, reset state and try to reconnect
+                        _steamVRShutDown = false;
+                        initComplete = false;
                     }
+
+                    Debug.WriteLine("Initializing OpenVR...");
+                    _steamVRConnected = _vr.Init();
 
                     Thread.Sleep(2000);
-                }
-
-                if (_steamVRShutDown)
-                {
-                    if (!_steamVRConnected) return;
-                    try
-                    {
-                        _server.SendMessageToAll(JsonConvert.SerializeObject(new State(false)));
-                        _vr.AcknowledgeShutdown();
-                        Thread.Sleep(500); // Allow things to deinit properly
-                        _vr.Shutdown();
-                        _openvrStatusAction.Invoke(false);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine($"OpenVR Shutdown Error: {e.Message}");
-                    }
-
-                    return;
                 }
 
                 _statusViewModel.wsServerState = _server.GetState();
@@ -330,10 +352,34 @@ namespace Home_Assistant_Agent_for_SteamVR
                     return;
                 }
 
+                // Handle commands that work without OpenVR connection
+                if (payload.type == "command" && payload.command == "start_steamvr")
+                {
+                    try
+                    {
+                        var psi = new ProcessStartInfo
+                        {
+                            FileName = "steam://rungameid/250820",
+                            UseShellExecute = true
+                        };
+                        Process.Start(psi);
+                        _server.SendMessage(session,
+                            JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, true)));
+                    }
+                    catch (Exception e)
+                    {
+                        _server.SendMessage(session,
+                            JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                                "start_steamvr_error", e.Message)));
+                    }
+                    return;
+                }
+
                 if (!_steamVRConnected)
                 {
-                    JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
-                        "steamvr_disconnected", "SteamVR is disconnected"));
+                    _server.SendMessage(session,
+                        JsonConvert.SerializeObject(new Response(payload.customProperties.nonce, false,
+                            "steamvr_disconnected", "SteamVR is disconnected")));
                     return;
                 }
 
@@ -352,30 +398,30 @@ namespace Home_Assistant_Agent_for_SteamVR
                                 "Custom notification is not enabled and basic message is empty")));
                         break;
                     case "command":
-                    {
-                        if (payload.command.StartsWith("vibrate_controller_"))
                         {
-                            switch (payload.command)
+                            if (payload.command.StartsWith("vibrate_controller_"))
                             {
-                                case "vibrate_controller_right":
-                                    await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
-                                        20);
-                                    break;
-                                case "vibrate_controller_left":
-                                    await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
-                                        20);
-                                    break;
-                                case "vibrate_controller_both":
-                                    await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
-                                        20);
-                                    await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
-                                        20);
-                                    break;
+                                switch (payload.command)
+                                {
+                                    case "vibrate_controller_right":
+                                        await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
+                                            20);
+                                        break;
+                                    case "vibrate_controller_left":
+                                        await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
+                                            20);
+                                        break;
+                                    case "vibrate_controller_both":
+                                        await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.RightHand, 3999, 5000,
+                                            20);
+                                        await TriggerRepeatedHapticPulseInController(ETrackedControllerRole.LeftHand, 3999, 5000,
+                                            20);
+                                        break;
+                                }
                             }
-                        }
 
-                        break;
-                    }
+                            break;
+                        }
                     case "register_event" when payload.command != null && payload.command.Length > 0:
                         try
                         {
@@ -495,6 +541,7 @@ namespace Home_Assistant_Agent_for_SteamVR
 
             _openvrStatusAction = (status) => { };
             _server.ResetActions();
+            _shouldExit = true;
             _steamVRShutDown = true;
             await _server.StopAsync();
         }
