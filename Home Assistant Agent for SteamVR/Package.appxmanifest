@@ -9,16 +9,16 @@
         IgnorableNamespaces="uap uap5 rescap">
 
     <Identity
-            Name="HASteamvrAgent"
-            Publisher="CN=antek"
+            Name="AntoniCzaplicki.29252B541F269"
+            Publisher="CN=2FA861B1-685B-4C74-BCD1-250F047FF1D2"
             Version="0.2.2.0"/>
 
-    <mp:PhoneIdentity PhoneProductId="cf45ac19-67ac-4b0d-8a79-c1576b3ac6c1"
+    <mp:PhoneIdentity PhoneProductId="8d002089-54cb-4852-b8d0-6d264589a758"
                       PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
     <Properties>
         <DisplayName>Home Assistant Agent for SteamVR</DisplayName>
-        <PublisherDisplayName>antek</PublisherDisplayName>
+        <PublisherDisplayName>Antoni Czaplicki</PublisherDisplayName>
         <Logo>Assets\StoreLogo.png</Logo>
     </Properties>
 
