@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -61,8 +62,17 @@ namespace Home_Assistant_Agent_for_SteamVR
             if (AppSettings.ManifestFilePath != "")
             {
                 AutoStartToggle.IsOn = true;
-                AutoStartInfoBar.Title = "Manifest file path: " + AppSettings.ManifestFilePath;
-                AutoStartInfoBar.Severity = InfoBarSeverity.Success;
+                if (File.Exists(AppSettings.ManifestFilePath))
+                {
+                    AutoStartInfoBar.Title = "Manifest file path: " + AppSettings.ManifestFilePath;
+                    AutoStartInfoBar.Severity = InfoBarSeverity.Success;
+                }
+                else
+                {
+                    AutoStartInfoBar.Title = "Manifest file path: " + AppSettings.ManifestFilePath + " (file not found)";
+                    AutoStartInfoBar.Severity = InfoBarSeverity.Warning;
+                }
+
                 AutoStartInfoBar.IsOpen = true;
                 SaveManifestButton.Content = "Change";
             }
@@ -307,8 +317,15 @@ namespace Home_Assistant_Agent_for_SteamVR
                 (Application.Current as App)?.MWindow.UnregisterManifest(AppSettings.ManifestFilePath);
 
                 // Delete the manifest file
-                var file = await StorageFile.GetFileFromPathAsync(AppSettings.ManifestFilePath);
-                await file.DeleteAsync();
+                try
+                {
+                    var file = await StorageFile.GetFileFromPathAsync(AppSettings.ManifestFilePath);
+                    await file.DeleteAsync();
+                }
+                catch (FileNotFoundException)
+                {
+                }
+
                 AppSettings.ManifestFilePath = "";
             }
 
