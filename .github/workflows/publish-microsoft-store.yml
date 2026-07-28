@@ -1,0 +1,84 @@
+name: Publish to Microsoft Store
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: microsoft-store-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build and publish Store package
+    runs-on: windows-latest
+    environment: microsoft-store
+
+    steps:
+      - name: Check out release
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Store upload package
+        shell: pwsh
+        run: |
+          msbuild "Home Assistant Agent for SteamVR.sln" `
+            /restore `
+            /m `
+            /p:Configuration=Release `
+            /p:Platform=x64 `
+            /p:GenerateAppxPackageOnBuild=true `
+            /p:UapAppxPackageBuildMode=StoreUpload `
+            /p:AppxBundle=Always `
+            '/p:AppxBundlePlatforms=x86|x64' `
+            /p:AppxPackageSigningEnabled=false `
+            /p:GenerateAppInstallerFile=false
+
+          $packages = @(
+            Get-ChildItem `
+              -Path "${{ github.workspace }}\Home Assistant Agent for SteamVR\bin" `
+              -Recurse `
+              -File `
+              -Filter *.msix |
+              Where-Object { $_.FullName -notlike "*\Dependencies\*" }
+          )
+
+          if ($packages.Count -ne 1) {
+            throw "Expected one application .msix package, found $($packages.Count)."
+          }
+
+          "STORE_PACKAGE=$($packages[0].FullName)" |
+            Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Set up Microsoft Store CLI
+        uses: microsoft/microsoft-store-apppublisher@v1.1
+
+      - name: Authenticate with Partner Center
+        shell: pwsh
+        run: |
+          msstore reconfigure `
+            --tenantId "${{ secrets.AZURE_AD_TENANT_ID }}" `
+            --sellerId "${{ secrets.SELLER_ID }}" `
+            --clientId "${{ secrets.AZURE_AD_APPLICATION_CLIENT_ID }}" `
+            --clientSecret "${{ secrets.AZURE_AD_APPLICATION_SECRET }}"
+
+      - name: Publish release to Microsoft Store
+        shell: pwsh
+        run: |
+          msstore publish `
+            "${{ github.workspace }}\Home Assistant Agent for SteamVR" `
+            --inputFile "$env:STORE_PACKAGE" `
+            --appId "9P8ZCW9FTL0T"
